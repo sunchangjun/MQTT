@@ -1,0 +1,23 @@
+package framework.service.Impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import framework.dao.ImageResourceRepository;
+import framework.entity.po.ImageResource;
+import framework.enums.IsDeleteEnum;
+import framework.service.ImageResourceService;
+
+public class ImageResourceServiceImpl implements ImageResourceService {
+	
+	@Autowired
+	ImageResourceRepository imageResourceRepository;
+	
+	public  ImageResource addImageResource(String  picUrl) {
+		ImageResource imageResource=new  ImageResource();
+		imageResource.setEnabled(IsDeleteEnum.UN_DELETE.getType());
+		imageResource.setUrl(picUrl);
+		imageResourceRepository.save(entity)
+		return  dbImageResource;
+	}
+
+}

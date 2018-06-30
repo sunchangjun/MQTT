@@ -1,0 +1,58 @@
+package framework.core.jpa.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "t_box")
+public class TBox implements Serializable{
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", nullable = false)
+	private Long id;
+	@Column(nullable = false, name = "device_primary_key")
+	private String devicePrimaryKey;
+	
+	
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public String getDevicePrimaryKey() {
+		return devicePrimaryKey;
+	}
+
+
+	public void setDevicePrimaryKey(String devicePrimaryKey) {
+		this.devicePrimaryKey = devicePrimaryKey;
+	}
+
+
+	public String getDeviceName() {
+		return deviceName;
+	}
+
+
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+
+
+	@Column(nullable = false, name = "device_name")
+	private String deviceName;
+	
+	
+}

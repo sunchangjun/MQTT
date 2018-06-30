@@ -1,0 +1,33 @@
+package Test.Dao;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.alibaba.fastjson.JSONObject;
+import com.mysql.fabric.xmlrpc.base.Array;
+
+import Test.Base.BaseJunitTest;
+import framework.common.jpa.Query;
+import framework.common.jpa.Select;
+import framework.dao.CommodityRoadRepository;
+import framework.entity.po.CommodityRoad;
+
+public class testCommodityRoadRepository extends BaseJunitTest {
+	
+	@Autowired
+	CommodityRoadRepository CommodityRoadRepository;
+	
+	@Test
+	public void test(){
+//		Query<CommodityRoad> query=new Query<CommodityRoad>();
+//	
+////		System.out.println(JSONObject.toJSONString(CommodityRoadRepository.findCommodityCountByBoxPortIdAnd()));
+//		System.out.println(JSONObject.toJSONString(CommodityRoadRepository.findCommodityCountByBoxPortIdAndCommodityId(2L,1L)));
+//		System.out.println("----------------------");
+//		System.out.println(JSONObject.toJSONString(CommodityRoadRepository.getCommodityRoadByPortIdList(new ArrayList<>(Arrays.asList(1L,2L)))));
+	}
+ 
+}

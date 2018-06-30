@@ -1,0 +1,130 @@
+package framework.entity.po;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "t_area")
+public class Area implements Serializable{
+	
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2703695092437804568L;
+
+	//区域编号
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name="area_id")
+	private Long areaId;
+	
+	//父区域
+	@Column(name="parent_id")
+	private Long parentId;
+	
+	//区域名称
+	@Column(name="area_name")
+	private String areaName;
+	
+	//区域编码
+	@Column(name="areacode")
+	private String areaCode;
+	
+	
+	//邮政编码
+	@Column(name="zipcode")
+	private String  zipCode;
+	
+	//深度(省,市,县;哪一级别)
+	@Column(name="depth")
+	private Integer  depth;
+	
+	
+	//是否开通
+	@Column(name="is_open")
+	private Short isOpen;
+
+
+	public Long getAreaId() {
+		return areaId;
+	}
+
+
+	public void setAreaId(Long areaId) {
+		this.areaId = areaId;
+	}
+
+
+	public Long getParentId() {
+		return parentId;
+	}
+
+
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+
+
+	public String getAreaName() {
+		return areaName;
+	}
+
+
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
+	}
+
+
+	public String getAreaCode() {
+		return areaCode;
+	}
+
+
+	public void setAreaCode(String areaCode) {
+		this.areaCode = areaCode;
+	}
+
+
+	public String getZipCode() {
+		return zipCode;
+	}
+
+
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+
+
+	public Integer getDepth() {
+		return depth;
+	}
+
+
+	public void setDepth(Integer depth) {
+		this.depth = depth;
+	}
+
+
+	public Short getIsOpen() {
+		return isOpen;
+	}
+
+
+	public void setIsOpen(Short isOpen) {
+		this.isOpen = isOpen;
+	}
+
+	
+
+	
+
+}

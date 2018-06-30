@@ -1,0 +1,193 @@
+package framework.entity.po;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
+/**
+ * 订单表
+ * 
+ * @author Administrator
+ *
+ */
+@Entity
+@Table(name = "t_order")
+public class Order implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	// 订单编号
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name = "order_id")
+	private Long orderId;
+
+	public Box getBox() {
+		return box;
+	}
+
+	public void setBox(Box box) {
+		this.box = box;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "box_id")
+	private Box box;
+
+	@Column(name = "box_id", insertable = false, updatable = false)
+	private Long boxId;
+	
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "order")
+	private List<OrderStateRcd> orderStateRcds = new ArrayList<OrderStateRcd>();
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_state_id")
+	private OrderState orderState;
+	
+	
+	public OrderState getOrderState() {
+		return this.orderState;
+	}
+
+	public void setOrderState(OrderState orderState) {
+		this.orderState = orderState;
+	}
+
+	// 商品数量
+	@Column(name = "commodity_num")
+	private Integer commodityNum;
+
+	// 订单金额
+	@Column(name = "order_money")
+	private Double orderMoney;
+	
+	
+	@Column(name = "dian_bi")
+	private Double	dian_bi;
+	
+	@Column(name = "bi_money")
+	private Double	 bi_money;
+
+	public Double getDian_bi() {
+		return dian_bi;
+	}
+
+	public void setDian_bi(Double dian_bi) {
+		this.dian_bi = dian_bi;
+	}
+
+	public Double getBi_money() {
+		return bi_money;
+	}
+
+	public void setBi_money(Double bi_money) {
+		this.bi_money = bi_money;
+	}
+
+	// 支付时间
+	@Column(name = "pay_time")
+	private Long payTime;
+
+	// 创建时间
+	@Column(name = "create_time")
+	private Long createTime;
+
+	// 修改时间
+	@Column(name = "finish_time")
+	private Long finishTime;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "order")
+	private List<OrderCommodityRoad> orderCommodityRoads = new ArrayList<OrderCommodityRoad>();
+	
+
+	public List<OrderCommodityRoad> getOrderCommodityRoads() {
+		return orderCommodityRoads;
+	}
+
+	public void setOrderCommodityRoads(List<OrderCommodityRoad> orderCommodityRoads) {
+		this.orderCommodityRoads = orderCommodityRoads;
+	}
+
+
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public Long getBoxId() {
+		return boxId;
+	}
+
+	public void setBoxId(Long boxId) {
+		this.boxId = boxId;
+	}
+
+
+	public Integer getCommodityNum() {
+		return commodityNum;
+	}
+
+	public void setCommodityNum(Integer commodityNum) {
+		this.commodityNum = commodityNum;
+	}
+
+	public Double getOrderMoney() {
+		return orderMoney;
+	}
+
+	public void setOrderMoney(Double orderMoney) {
+		this.orderMoney = orderMoney;
+	}
+
+	public Long getPayTime() {
+		return payTime;
+	}
+
+	public void setPayTime(Long payTime) {
+		this.payTime = payTime;
+	}
+
+	public Long getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Long createTime) {
+		this.createTime = createTime;
+	}
+
+	public Long getFinishTime() {
+		return finishTime;
+	}
+
+	public void setFinishTime(Long finishTime) {
+		this.finishTime = finishTime;
+	}
+
+	
+}

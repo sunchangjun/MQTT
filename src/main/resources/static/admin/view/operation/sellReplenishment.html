@@ -1,0 +1,61 @@
+<div id="sellrep" class="con_sty">
+	<div class="body_box" id="">
+		<div class="sear_boxl">
+			<button class="radius btn_sty">导出</button>
+			<div class="con-rgt">
+				<input type="text" name="" id="test1" placeholder="请选择日期" e-click='time_ipt' style="width:250px" class="input-text ml_10 radius">
+				<span class="select-box inline radius">
+					<select name="" class="select" >
+						<option value="">分区</option>
+					</select>
+				</span>
+				<span class="select-box inline radius">
+					<select name="" class="select">
+						<option value="">线路</option>
+					</select>
+				</span>
+				<input type="text" name="" id="" placeholder="点位" style="width:150px" class="input-text ml_10 radius">
+				<input type="text" name="" id="" placeholder="补货计划" style="width:150px" class="input-text radius">
+				<input type="text" name="" id="" placeholder="编号" style="width:150px" class="input-text radius">
+				<input type="button" name="" id="" class="sear_btn radius" value="" />
+			</div>
+		</div>
+		<div class="mt_20 tab_box">
+			<table class="">
+				<thead>
+					<tr class="text-c">
+						<th>序号</th>
+						<th>查看明细</th>
+						<th>区域</th>
+						<th>线路</th>
+						<th>点位</th>
+						<th>售货机编号</th>
+						<th>所属补货计划</th>
+						<th>补货完成时间</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-c" x-repeat='goods_list'>
+						<td>{{id}}</td>
+						<td>{{det}}</td>
+						<td>{{region}}</td>
+						<td>{{line}}</td>
+						<td>{{point}}</td>
+						<td>{{ser}}</td>
+						<td>{{plan}}</td>
+						<td>{{complete_time}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="pag_box bod_top">
+		<input type="button" class="pag_btn ml_30" name="" id="" value="上一页" e-click='up_page' />
+		<span class="pag_sp ml_10">{{pages}}/{{sum_pages}}</span>
+		<input type="button" class="pag_btn ml_10" name="" id="" value="下一页" e-click='down_page' />
+		<span class="sum_data">共有数据：<strong> {{sum_data}}</strong> 条</span>
+	</div>
+	<div class="tips_sta" x-show='tip_open'>
+		没有更多了
+	</div>
+</div>

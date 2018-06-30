@@ -1,0 +1,107 @@
+<!--添加管理员-->
+<div class="add-admin">
+    <div class="el-title"></div>
+    <div class="content add-admin-con">
+        <div class="com-add-module">
+            <div class="com-module-title fl">管理员基本信息</div>
+            <div class="com-module-title" style="margin-left: 34%;">分配角色</div>
+        </div>
+        <div class="clear"></div>
+        <div class="tables">
+            <div class="left-table">
+                <div class="com-add-module admin-info-table">
+                    <div class="com-add-name-value admin-mobile">
+                        <span class="com-add-name">手机号码</span>
+                        <input type="number" class="com-add-input mt_3" x-field="mobile" x-show='type<=1'>
+                        <input type="number" class="com-add-input mt_3" readonly="readonly" value="{{ediName}}" x-show='type >= 2'>
+                    </div>
+                    <div class="com-add-name-value" x-show='type<=1'>
+                        <span class="com-add-name com-is-necessary">初始密码</span>
+                        <input type="password" class="com-add-input mt_3" x-field="user_pwd">
+                    </div>
+                    <div class="com-add-name-value" x-show='type<=1'>
+                        <span class="com-add-name com-is-necessary">重复密码</span>
+                        <input type="password" class="com-add-input mt_3" x-field="user_pwd_again">
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="mid-table">
+                <table class="com-table table">
+                    <thead>
+                    <tr class="com-table-ths">
+                        <th>现有角色</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="cont-tab">
+                    <table class="com-table table">
+                        <tbody x-if="no_binds">
+                        <tr>
+                            <th class="com-no-data" colspan="2">暂无已绑定角色</th>
+                        </tr>
+                        </tbody>
+                        <tbody x-else>
+                        <tr class="com-table-tds" x-repeat="bind_list">
+                            <td><span>{{groupName}}</span></td>
+                            <td>
+                                <button class="com-btn com-dele-btn" e-click="removeBind">解绑</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--未绑定的列表-->
+            <div class="right-table">
+                <table class="com-table table">
+                    <thead>
+                    <tr class="com-table-ths">
+                        <th>其他角色</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="cont-tab">
+                    <table class="com-table table">
+                        <tbody x-if="total == 0">
+                        <tr>
+                            <th class="com-no-data" colspan="2">暂无未绑定角色</th>
+                        </tr>
+                        </tbody>
+                        <tbody x-else>
+                        <tr class="com-table-tds" x-repeat="grp_list">
+                           	<td><span>{{groupName}}</span></td>
+                            <td>
+                                <button class="com-btn com-add-btn" x-if="!is_bind" e-click="addBind">绑定</button>
+                                <button class="com-btn" x-else>已绑定</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="el-paging">
+        	<div class="com-plugin-paging">
+			    <span>共<span class="red">{{total}}</span>条记录</span>
+			    <span>共<span class="red">{{all_page}}</span>页</span>
+			    <span>当前第<span class="red">{{page}}</span>页</span>
+			    <div class="to-prev" x-class="{'can-not':'page==1'}" e-click="toPrev">上一页</div>
+			    <div class="to-next" x-class="{'can-not':'page==all_page'}" e-click="toNext">下一页</div>
+			    <span>转到:</span>
+			    <input type="number" x-field="to_page">
+			    <div class="go-to" e-click="goTo">GO</div>
+			</div>
+        </div>
+        <div class="clear"></div>
+        <div class="com-btn-box">
+            <button class="com-btn com-blue-btn" e-click="submit">确认提交</button>
+        </div>
+    </div>
+    <div class="tips_sta" x-show='tip_open'>
+		<div class="tip_icon" x-class="{'icon_suc':'icon_tip>=2','icon_den':'icon_tip<=1'}"></div>
+		{{tips_tit}}
+	</div>
+</div>

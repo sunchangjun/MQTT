@@ -1,0 +1,28 @@
+html, body {
+	margin: 0;
+	background-color: #fff;
+	height: 100%;
+}
+
+.page_error {
+	padding-top: 40%;
+}
+
+.page_error .tip_img {
+	width: 24%;
+	margin-left: 38%;
+}
+
+.page_error .tip_title {
+	text-align: center;
+	color: rgb(56, 164, 239);
+	font-size: 16px;
+	line-height: 32px;
+}
+
+.page_error .tip_text {
+	text-align: center;
+	color: #999;
+	font-size: 12px;
+	line-height: 24px;
+}

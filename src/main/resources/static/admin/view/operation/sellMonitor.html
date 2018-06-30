@@ -1,0 +1,125 @@
+<div id="sellmon" class="con_sty">
+	<div class="body_box" id="">
+		<div class="sear_box">
+			<button class="radius btn_sty">导出</button>
+			<div class="con-rgt">
+				<span class="select-box inline radius">
+					<select name="" class="select" x-field='isEnabled'>
+						<option value="" disabled="disabled" selected = "selected">状态</option>
+						<option value="1">启用</option>
+						<option value="-1">禁用</option>
+					</select>
+				</span>
+				<span class="select-box inline radius">
+					<select name="" class="select">
+						<option value="">线路</option>
+					</select>
+				</span>
+				<span class="select-box inline radius">
+					<select name="" class="select">
+						<option value="">售货机型号</option>
+					</select>
+				</span>
+				<input type="text" name="" id="" placeholder="点位名称" class="sea_ipt input-text ml_10 radius">
+				<input type="text" name="" id="" placeholder="售货机编号" class="sea_ipt input-text ml_10 radius" x-field='boxCode'>
+				<input type="button" name="" id="" class="sear_btn radius" value="" e-click="search" />
+			</div>
+		</div>
+		<div class="mt_20 tab_box">
+			<table class="">
+				<thead>
+					<tr class="text-c">
+						<th>序号</th>
+						<th>售货机编号</th>
+						<th>线路</th>
+						<th>点位名称</th>
+						<th>库存商品数量</th>
+						<th>售货机容量</th>
+						<th>库存占比</th>
+						<th>生成补货计划</th>
+						<th>售空货道数</th>
+						<th>售空货道数占比</th>
+						<th>共有货道数</th>
+						<th>售空商品种类</th>
+						<th>已配商品种类</th>
+						<th>售空商品占比</th>
+						<th>查看库存</th>
+					</tr>
+				</thead>
+				<tbody x-if="total == 0">
+	                <tr>
+	                    <th class="com-no-data" colspan="15">暂无数据</th>
+	                </tr>
+                </tbody>
+				<tbody x-else>
+					<tr class="text-c" x-repeat='goods_list'>
+						<td>{{boxId}}</td>
+						<td>{{boxCode}}</td>
+						<td></td>
+						<td></td>
+						<td>{{existingStocks}}</td>
+						<td>{{sumStocks}}</td>
+						<td>{{percentage1}}</td>
+						<td></td>
+						<td>{{nullRoadNumber}}</td>
+						<td>{{percentage2}}</td>
+						<td>{{cargoRoadNumber}}</td>
+						<td>
+							<select name="" class="select">
+								<option value="" style="display: none;" selected="selected">查看全部</option>
+								<option x-repeat='outOfStockName' disabled="disabled" value="{{commodityId}}">{{commodityName}}</option>
+							</select>
+						</td>
+						<td>
+							<select name="" class="select">
+								<option value="" style="display: none;" selected="selected">查看全部</option>
+								<option x-repeat='pickingName' disabled="disabled" value="{{commodityId}}">{{commodityName}}</option>
+							</select>
+						</td>
+						<td>{{percentage3}}</td>
+						<td><div class="see_icon" data-id='{{boxCode}}' e-click='see_det' ></div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="see_box" x-show='open'>
+			<div class="mt_20 com_hgt">
+				<div class="com_box bod_btm">
+					<div class="sml_box" x-repeat='com_list'>
+						<span class="seq_num">
+						<strong>{{qz}}-<span x-if='num==0'>10</span><span x-else>{{num}}</span></strong>
+						</span>
+						<span class="goods_img" x-if='commodityId==-1'>
+						<div class=""></div>
+						<div class="nul_tips">
+							暂无商品
+						</div>
+					</span>
+						<span class="goods_img" x-else>
+						<img class="kc_img" src="{{imageResourceList.url}}"/>
+					</span>
+						<span class="stock_num" x-class="{cor_r:'commodityNum==0'}">库存：{{commodityNum}}</span>
+					</div>
+				</div>
+			</div>
+			<div class="sto_show bod_top">
+				<input type="button" class="pag_btn ml_30" name="" id="" value="上一页" e-click='up_sto'>
+				<span class="pag_sp ml_10">{{spage}}/{{spages}}</span>
+				<input type="button" class="pag_btn ml_10" name="" id="" value="下一页" e-click='down_sto'>
+				<span class="sto_btns">
+					<button class="radius btn_sty_can" e-click='close_det'>关闭</button>
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="pag_box bod_top">
+		<input type="button" class="pag_btn ml_30" name="" id="" value="上一页" e-click='up_page' />
+		<span class="pag_sp ml_10">{{pages}}/{{pageCount}}</span>
+		<input type="button" class="pag_btn ml_10" name="" id="" value="下一页" e-click='down_page' />
+		<span class="sum_data">共有数据：<strong> {{total}}</strong> 条</span>
+	</div>
+	<div class="tips_sta" x-show='tip_open'>
+		<div class="tip_icon" x-class="{'icon_suc':'icon_tip>=2','icon_den':'icon_tip<=1'}"></div>
+		{{tips_tit}}
+	</div>
+</div>

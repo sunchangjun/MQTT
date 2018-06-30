@@ -1,0 +1,165 @@
+package framework.service.Impl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.experimental.categories.Category;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import framework.dao.CommodityRepository;
+import framework.dao.CommodityRoadRepository;
+import framework.dao.OrderCommodityRepository;
+import framework.dao.OrderCommodityRoadRepository;
+import framework.dao.OrderRepository;
+import framework.dao.OrderStateRcdRepository;
+import framework.dao.OrderStateRepository;
+import framework.entity.po.Box;
+import framework.entity.po.Commodity;
+import framework.entity.po.CommodityRoad;
+import framework.entity.po.Order;
+import framework.entity.po.OrderCommodity;
+import framework.entity.po.OrderCommodityRoad;
+import framework.entity.po.OrderState;
+import framework.entity.po.OrderStateRcd;
+import framework.enums.IsDeleteEnum;
+import framework.enums.OrderStatusEnum;
+import framework.service.OrderService;
+import framework.service.OrderStateRcdService;
+
+@Service
+public class OrderServiceImpl implements OrderService {
+
+	@Autowired
+	private CommodityRepository commodityRepository;
+	
+	@Autowired
+	private OrderRepository orderRepository;
+	
+	@Autowired
+	private OrderStateRcdService orderStateRcdService;
+	
+	@Autowired
+	private CommodityRoadRepository commodityRoadRepository;
+	
+	@Autowired
+	private OrderStateRepository orderStateRepository;
+	
+	
+	@Autowired
+	private OrderCommodityRoadRepository orderCommodityRoadRepository;
+	@Autowired
+	private OrderCommodityRepository orderCommodityRepository;
+	
+	@Autowired
+	private	OrderStateRcdRepository orderStateRcdRepository;
+
+	public Order createOrder(Long commodity_id,Long box_id) {
+		Order returnDborder = null;
+		// 查询商品
+		Commodity commodity = commodityRepository.findOne(commodity_id);
+		if (null != commodity) {
+			Order order = new Order();
+			order.setBoxId(box_id);
+			order.setCommodityNum(1);
+			order.setCreateTime(new Date().getTime());
+			//订单有效期5分钟
+			order.setFinishTime(new Date().getTime()+300000L);
+			order.setOrderMoney(commodity.getPrice());
+			
+			returnDborder = orderRepository.save(order);
+			if(null != returnDborder){
+				//保存订单状态
+				OrderStateRcd orderStateRcd=new OrderStateRcd();
+				orderStateRcd.setOrderId(returnDborder.getOrderId());
+				orderStateRcd.setOrderStateId(OrderStatusEnum.PRE_PAYMENT.getType());
+				orderStateRcd.setRcdTime(new Date().getTime());
+				orderStateRcd.setRemarks("扫描二维码,生成订单,待支付");
+				orderStateRcdRepository.save(orderStateRcd);
+			}	
+		}
+
+		return returnDborder;
+	}
+	@Override
+	@Transactional
+	public Order createOrder(Map<Long, Integer> saleRoadList, Box box) {
+		Iterator<Long> its = saleRoadList.keySet().iterator();
+		Order order = new Order();
+		order.setBox(box);
+		int sumNum=0;
+		Double orderMoney=0d;
+		Double bi_money=0d;
+		Double dian_bi=0d;
+		order.setCreateTime(System.currentTimeMillis());
+		List<OrderCommodityRoad> orderCommodityRoads = new ArrayList<OrderCommodityRoad>();
+		
+		for (Iterator<Long> it = its; it.hasNext();) {
+			Long _id = it.next();
+			CommodityRoad one = commodityRoadRepository.findOne(_id);
+			Commodity cty=one.getCommodity();
+			
+			OrderCommodityRoad orderCommodityRoad = new OrderCommodityRoad();
+			
+			OrderCommodity orcty=new OrderCommodity();
+			orcty.setBox(box);
+			orcty.setCommodityNum(cty.getStocks());
+			orcty.setNumber(saleRoadList.get(_id));
+			orcty.setBi_price(cty.getBi_price());
+			orcty.setDian_bi(cty.getDian_bi());
+			orcty.setSale_price(cty.getPrice());
+			orcty.setCtime(System.currentTimeMillis());
+			orcty.setStare((short)1);
+			orcty.setOrderCommodityRoad(orderCommodityRoad);
+			orcty.setCommodity(cty);
+			
+			orderCommodityRoad.setOrder(order);
+			orderCommodityRoad.setBox(box);
+			orderCommodityRoad.setCommodityRoad(one);
+			orderCommodityRoad.setOrderCommodity(orcty);
+			
+			orderCommodityRoad.setCtime(System.currentTimeMillis());
+			orderCommodityRoad.setIsDelete(IsDeleteEnum.UN_DELETE.getType());
+			orderCommodityRoad.setStare(Short.valueOf("1"));
+			orderCommodityRoad.setCommodityNum(saleRoadList.get(_id));
+			
+			sumNum+=saleRoadList.get(_id);
+			orderMoney+=cty.getPrice()*saleRoadList.get(_id);
+			bi_money+=cty.getBi_price()*saleRoadList.get(_id);
+			dian_bi+=cty.getDian_bi()*saleRoadList.get(_id);
+			orderCommodityRepository.save(orcty);
+			orderCommodityRoadRepository.save(orderCommodityRoad);
+			one.setCommodityNum(one.getCommodityNum()-saleRoadList.get(_id));
+			commodityRoadRepository.save(one);
+			try {
+				cty.setStocks(cty.getStocks()-saleRoadList.get(_id));
+				commodityRepository.save(cty);
+			} catch (Exception e) {
+			}
+			orderCommodityRoads.add(orderCommodityRoad);
+		}
+		
+		OrderState orderState = orderStateRepository.findOne(1L);
+		
+		OrderStateRcd orderStateRcd =new OrderStateRcd();
+		orderStateRcd.setOrderState(orderState);
+		orderStateRcd.setRcdTime(System.currentTimeMillis());
+		orderStateRcd.setOrder(order);
+		orderStateRcd.setRemarks("createOrder");
+		orderStateRcdService.saveOrderStateRcd(orderStateRcd); // 保存
+		
+		order.setOrderState(orderState);
+		order.setOrderCommodityRoads(orderCommodityRoads);
+		order.setCommodityNum(sumNum);
+		order.setOrderMoney(orderMoney);
+		order.setBi_money(bi_money);
+		order.setDian_bi(dian_bi);
+		orderRepository.save(order);
+		return order;
+	}
+
+}

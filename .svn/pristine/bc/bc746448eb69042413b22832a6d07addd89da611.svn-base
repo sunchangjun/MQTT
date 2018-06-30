@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" name="viewport"
+			content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+		<title>库存不足</title>
+		<link type="text/css" rel="stylesheet" href="css/tip.css"/>
+	</head>
+	<body>
+		<div class="page_error">
+			<img class="tip_img" src="img/tip_error_nostore.png" />
+			<div class="tip_title">库存不足</div>
+			<div class="tip_text">非常抱歉此商品库存不足，无法购买</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,50 @@
+a = {
+	"commodity" : [ {
+		"commodityDesc" : "描述吧",
+		"commodityId" : 1,
+		"commodityName" : "农夫果园",
+		"enabled" : 1,
+		"price" : 5.0
+	}, {
+		"commodityDesc" : "商品描述",
+		"commodityId" : 2,
+		"commodityName" : "快520了",
+		"createTime" : 1526609690694,
+		"enabled" : 1,
+		"price" : 5.18,
+		"stocks" : 20
+	}, {
+		"commodityDesc" : "商品描述",
+		"commodityId" : 3,
+		"commodityName" : "今天5.18号",
+		"createTime" : 1526609975415,
+		"enabled" : 1,
+		"price" : 5.18,
+		"stocks" : 10
+	}, {
+		"commodityDesc" : "今天星期五",
+		"commodityId" : 4,
+		"commodityName" : "今天星期五",
+		"createTime" : 1526610243664,
+		"enabled" : 1,
+		"price" : 5.18,
+		"stocks" : 518
+	} ],
+	"commodityImag" : [ {
+		"commodityId" : 2,
+		"enabled" : 1,
+		"image_resource_id" : 1,
+		"remarks" : "1",
+		"resType" : 1,
+		"thump" : "1",
+		"url" : "www.baidu.com"
+	}, {
+		"commodityId" : 1,
+		"enabled" : 1,
+		"image_resource_id" : 2,
+		"remarks" : "1",
+		"resType" : 1,
+		"thump" : "1",
+		"url" : "www.jingdong"
+	} ]
+}

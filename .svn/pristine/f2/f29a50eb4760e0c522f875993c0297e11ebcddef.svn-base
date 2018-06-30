@@ -1,0 +1,134 @@
+package Test.Controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.alibaba.fastjson.JSONObject;
+
+import Test.Base.BaseJunitTest;
+import framework.common.jpa.Query;
+import framework.common.jpa.Select;
+import framework.controller.CommodityController;
+import framework.dao.BoxPortRepository;
+import framework.dao.BoxRepository;
+import framework.dao.CommodityRepository;
+import framework.dao.CommodityRoadRepository;
+import framework.dao.ImageResourceRepository;
+import framework.entity.po.Box;
+import framework.entity.po.BoxPort;
+import framework.entity.po.Commodity;
+import framework.entity.po.CommodityRoad;
+import framework.entity.po.ImageResource;
+import framework.mqtt.MQttUtil;
+import framework.pojo.DataType;
+import framework.pojo.Request;
+
+public class testCommodityController extends BaseJunitTest{
+	
+	@Autowired
+	CommodityController commodityController;
+	@Autowired
+	CommodityRepository commodityRepository;
+	
+	@Autowired
+	ImageResourceRepository imageResourceRepository;
+	
+	@Autowired
+	MQttUtil mQttUtil;
+	
+	@Autowired
+	CommodityRoadRepository commodityRoadRepository;
+	
+	@Autowired
+	BoxRepository boxRepository;
+	
+	@Autowired
+	BoxPortRepository boxPortRepository;
+//	@Test
+//	public void test(){
+//		System.out.println(JSONObject.toJSONString(commodityController.createOrUpdateCommodity(null, "今天5.18号", 5.18, 10, "商品描述")));
+//	}
+	
+//	@Test
+//	public void test1() {
+//		
+//		Box box=boxRepository.findBoxbyCode_name("DLA364");
+//		if(null != box) {
+//			List<BoxPort> boxport=boxPortRepository.getBoxProtListByBoxId(box.getBoxId());
+//			List<Long> portIdList=new ArrayList<Long>();
+//			if(CollectionUtils.isNotEmpty(boxport)) {
+//				for (BoxPort boxPort2 : boxport) {
+//					portIdList.add(boxPort2.getBoxPortId());
+//				}	
+//				List<CommodityRoad>comList=	commodityRoadRepository.getCommodityRoadByPortIdList(portIdList);
+//				if(CollectionUtils.isNotEmpty(comList)) {
+//					List<Long>  crIdList=new ArrayList<Long>();
+//					for (CommodityRoad commodityRoad : comList) {
+//						crIdList.add(commodityRoad.getCommodityId());
+//					}			
+//					//查询货道内含有哪些商品		
+//					Query<Commodity> query=new Query<Commodity>();
+//					query.add(Select.in("commodityId", crIdList,true ));
+//				List<Commodity> list=commodityRepository.findAll(query);
+//				//查询图片
+//				Query<ImageResource> imgQuery=new Query<ImageResource>();
+//				imgQuery.add(Select.in("commodityId", crIdList, true));
+//				List<ImageResource> imageList=imageResourceRepository.findAll(imgQuery);
+//				Map<String,Object> map=new HashMap<String,Object>();
+//				map.put("commodity", list);
+//				System.out.println(JSONObject.toJSONString(list));
+//				map.put("commodityImag", imageList);	 
+//				System.out.println(JSONObject.toJSONString(imageList));
+//				//发送商品数据
+//				Request bind = new Request();
+//				bind.setDataType(DataType.COMMODITY);
+//				bind.setDevice("DLA364");
+//				bind.setData(Request.Object2Bytes(map));
+//				mQttUtil.sendP2P(bind);
+//				}
+//				
+//
+//			}
+//		
+//		
+//			
+//			
+//		}
+//		}
+			
+	@Test
+public  void test3() {
+		List<Object[]> list=commodityRepository.getCommodityByBoxCode("DLA364");
+		List<Long> commodityIdList=new ArrayList<Long>();	
+		List<Map<String,Object>> commodityList=new ArrayList<Map<String,Object>>();
+		if(CollectionUtils.isNotEmpty(list)) {
+			for (Object[] objects : list) {
+				Long commodityId=Long.valueOf(objects[0].toString());
+				String commodityName=objects[1].toString();
+				Double price=Double.valueOf(objects[2].toString());
+				Map<String,Object> map=new HashMap<String,Object>();
+				map.put("commodityId", commodityId);
+				map.put("commodityName", commodityName);
+				map.put("price", price);
+				commodityList.add(map);
+				commodityIdList.add(commodityId);
+			}
+			Query<ImageResource> imgQuery=new Query<ImageResource>();
+			imgQuery.add(Select.in("commodityId", commodityIdList, true));
+			List<ImageResource> imageList=imageResourceRepository.findAll(imgQuery);
+			Map<String,Object> map=new HashMap<String,Object>();
+			map.put("commodity", commodityList);
+			map.put("commodityImag", imageList);	 
+			System.out.println(JSONObject.toJSONString(map));
+	
+}
+	
+
+}
+}

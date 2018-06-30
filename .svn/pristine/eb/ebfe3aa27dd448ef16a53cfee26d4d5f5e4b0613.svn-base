@@ -1,0 +1,44 @@
+package framework.enums;
+
+public enum Success {
+
+	
+		TRUE(Short.parseShort("1"),"true"),
+		FALSE(Short.parseShort("-1"),"false"),
+		;
+		private Short type;
+		private String 	description;
+
+		private Success (Short type,String description) {
+			this.type = type;
+			this.description = description;
+		}
+		
+		public Short getType() {
+			return type;
+		}
+		public String getDescription() {
+			return description;
+		}
+			
+		public static Success getEnumByNumber(Short type){
+			if (type == null)
+	            return null;
+	        for (Success isDeleteEnum : Success.values()) {
+	            if (isDeleteEnum.getType().equals(type))
+	                return isDeleteEnum;
+	        }
+	        return null;
+		}
+		
+		public static Success getEnumByDescription(String description){
+			if (description == null)
+	            return null;
+	        for (Success isDeleteEnum : Success.values()) {
+	            if (isDeleteEnum.getDescription().equals(description))
+	                return isDeleteEnum;
+	        }
+	        return null;
+		}
+
+}

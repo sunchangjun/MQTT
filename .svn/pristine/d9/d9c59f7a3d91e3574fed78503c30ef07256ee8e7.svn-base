@@ -1,0 +1,8 @@
+package framework.dao.auth;
+
+import framework.common.jpa.BaseRepository;
+import framework.entity.po.auth.Group;
+
+public interface GroupRepository extends BaseRepository<Group, Long> {
+
+}

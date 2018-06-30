@@ -1,0 +1,118 @@
+package framework.common.result;
+
+public class Code {
+	
+	// http请求返回信息
+	public static final String GWSCOD0000 = "000";
+	public static final String GWSMSG0000 = "success";
+	
+	public static final String GWSCOD0001 = "001";
+	public static final String GWSMSG0001 = "系统响应异常,操作失败";
+	
+	public static final String GWSCOD0002 = "002";
+	public static final String GWSMSG0002 = "数据获取失败,非法请求,token不正确";
+	
+	public static final String GWSCOD0003 = "003";
+	public static final String GWSMSG0003 = "参数非法";
+	
+	public static final String GWSCOD0004 = "004";
+	public static final String GWSMSG0004 = "请求非法";
+	
+	public static final String GWSCOD0005 = "005";
+	public static final String GWSMSG0005 = "验证码不正确，请重新校验！";
+
+	public static final String GWSCOD0006 = "006";
+	public static final String GWSMSG0006 = "角色已存在！";
+
+	public static final String GWSCOD0007 = "007";
+	public static final String GWSMSG0007 = "账号已存在！";
+
+	public static final String GWSCOD0008 = "008";
+	public static final String GWSMSG0008 = "该角色下有用户存在,禁止删除！";
+
+	public static final String GWSCOD0009 = "009";
+	public static final String GWSMSG0009 = "菜单不存在！";
+
+	public static final String GWSCOD0010 = "010";
+	public static final String GWSMSG0010 = "用户不存在！";
+	/** 常用 **/
+	// 用户关系信息
+	public static final String USER_RELATION_INFO = "USER_RELATION_INFO:";
+	public static final String IS_FORBID = "USER_RELATION_INFO:isForbid";// 是否禁言
+	public static final String IS_APP_ADMIN = "USER_RELATION_INFO:isAppAdmin";// 是否场控
+	public static final String IS_LIVE_ADMIN = "USER_RELATION_INFO:isLiveAdmin";// 是否超管
+	public static final String IS_OVERALL_FORBID = "USER_RELATION_INFO:isOverallForbid";// 是否全局禁言
+	public static final String FANS_COUNT = "USER_RELATION_INFO:fansCount";//粉丝数
+	public static final String FOLLOW_COUNT = "USER_RELATION_INFO:followCount";//关注数
+	//APP信息
+	public static final String SDK_INFO = "SDK_INFO:";
+	public static final String APP_SIG = "SDK_INFO:APP_SIG";// APP管理SIG
+	// 主播开播轮询
+	public static final String LIVE_STATUS = "ANCHOR_PLAY_STATUS:ID_";
+	//主播信息
+	public static final String ANCHOR_INFO = "ANCHOR_INFO:";
+	//是否主播权限
+	public static final String IS_ANCHOR = "ANCHOR_INFO:IS_ANCHOR";
+	//系统开关配置
+	public static final String SYS_CONFIG = "SYS_CONFIG:";
+	public static final String SYS_ALL_CONFIG = "SYS_CONFIG:All";//全部配置
+	public static final String SYS_ANDROID_CONFIG = "SYS_CONFIG:android";//android配置
+	public static final String SYS_IOS_CONFIG = "SYS_CONFIG:ios";//ios配置
+	// 群组永久禁言
+	public static final Integer FORERVER = 315360000;
+	// 群组解除禁言
+	public static final Integer FORZERO = 0;
+	// 主播开播状态失效时间
+	public static final Long LIVE_LAPSE_TIME = 300L;
+	//腾讯云SIG失效时间
+    public static final int SIG_EXPIRE = 90;
+    //直播配置信息realKey
+    public static final String LIVE_CONFIG = "LIVE_CONFIG:";
+    //直播间分享
+    public static final String LIVE_SHARE = "LIVE_CONFIG:live_share";
+    public static final String LIVE_SHARE_ANCHOR_TITLE = "anchor_share_title";//主播分享标题redis小KEY
+    public static final String LIVE_SHARE_ANCHOR_CONTENT = "anchor_share_content";//主播分享内容redis小KEY
+    public static final String LIVE_SHARE_USER_TITLE = "user_share_title";//用户分享标题redis小KEY
+    public static final String LIVE_SHARE_USER_CONTENT = "user_share_content";//用户分享内容redis小KEY
+	/** **/
+	
+	//平台管理盈利id
+  	public static final Long OWN_MANAGE_SYSTEM_IN_ID = 888888L;
+  	
+  	//平台管理出账id
+  	public static final Long OWN_MANAGE_SYSTEM_OUT_ID = 777777L;
+	 //排序
+    public static final String SORT_FIELD_CTIME = "ctime";
+    
+    //方法名常量
+    public static final String METHODNAME = "methodName";
+    
+    //微信公众号充值类型商品前缀
+    public static final String WX_PUB_RECHARGE_GOODS_TYPE_PREFIX = "WX_PUB_RECHARGE_GOODS_TYPE_PREFIX_";
+    
+    public static final String WX_PUB_RECHARGE_NOTIFY_ORDER_ID_PREFIX = "WX_PUB_RECHARGE_NOTIFY_ORDER_ID_PREFIX_";
+
+    //砸金蛋活动类型的商品前缀
+	public static final String ACTIVITY_SMASH_EGGS = "ACTIVITY_SMASH_EGGS_";
+
+    //龙猫卖家id
+  	public static final Long TOTORO_SELLER_ID = 100L;
+  	
+    //苹果充值7折
+  	public static final double APPLE_PAY_DISCOUNT_RATIO = 0.07;
+  	
+    //jwttoken
+	public static final String JWT_TOKEN = "JWT_TOKEN:";
+	public static final String TOKEN = "token_";
+	public static final String REFRESH_TOKEN = "refreshtoken_";
+	public static final String TYPE = "type_";
+    //token开关
+	public static final String TURN_TOKEN = "turn_token_";
+	//OFF-ON
+	public static final String OFF_ON = "off_on";
+    
+    //送红包
+    public static final String SEND = "send_";
+    public static final String PACKET = "packet";
+}
+

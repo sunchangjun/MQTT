@@ -1,0 +1,94 @@
+package framework.entity.po;
+
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import com.alibaba.fastjson.annotation.JSONField;
+
+/**
+ * 图片资源表
+ * 
+ * @author sunchangjunn
+ *
+ */
+@Entity
+@Table(name = "t_image_resource")
+public class ImageResource  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3793453109934748290L;
+	// 主键id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name = "image_resource_id")
+	private Long imageResourceId;
+	
+	// 图片地址
+	@Column(name = "url")
+	private String url;
+	// 资源类型
+	@Column(name = "res_type")
+	private Short resType;
+	// 是否启用
+	@Column(name = "enabled")
+	private Short enabled;
+	// 缩略图
+	@Column(name = "thump")
+	private String thump;
+	// 备注
+	@Column(name = "remarks")
+	private String remarks;
+	
+	@JSONField(serialize = false)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "imageResource")
+	private  List<CommodityRes> commodityResList;
+	
+	
+	public Long getImageResourceId() {
+		return imageResourceId;
+	}
+	public void setImageResourceId(Long imageResourceId) {
+		this.imageResourceId = imageResourceId;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public Short getResType() {
+		return resType;
+	}
+	public void setResType(Short resType) {
+		this.resType = resType;
+	}
+	public Short getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(Short enabled) {
+		this.enabled = enabled;
+	}
+	public String getThump() {
+		return thump;
+	}
+	public void setThump(String thump) {
+		this.thump = thump;
+	}
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+}

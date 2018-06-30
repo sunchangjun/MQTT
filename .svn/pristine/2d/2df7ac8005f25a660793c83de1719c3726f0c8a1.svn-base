@@ -1,0 +1,202 @@
+package framework.entity.po;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
+/**
+ * 订单货道出货表
+ * 
+ * @author Administrator
+ *
+ */
+@Entity
+@Table(name = "t_order_commodity_road")
+public class OrderCommodityRoad implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4129225324022048789L;
+
+	// 订单货道id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name = "order_commodity_road_id")
+	private Long orderCommodityRoadId;
+
+	@JSONField(serialize = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "box_id")
+	private Box box;
+
+	@Column(name = "box_id", insertable = false, updatable = false)
+	private Long boxId;
+
+	// 数量
+	@Column(name = "number")
+	private Integer commodityNum;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "commodity_road_id")
+	private CommodityRoad commodityRoad;
+	// 货道号
+	@Column(name = "commodity_road_id", insertable = false, updatable = false)
+	private Long commodityRoadId;
+
+	// 创建时间
+	@Column(name = "ctime")
+	private Long ctime;
+
+	// 删除状态
+	@Column(name = "is_delete")
+	private Short isDelete;
+
+	@JSONField(serialize = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_id")
+	private Order order;
+
+	@Column(name = "order_id", insertable = false, updatable = false)
+	private Long orderId;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_commodity_id")
+	private OrderCommodity orderCommodity;
+
+	@Column(name = "order_commodity_id", insertable = false, updatable = false)
+	private Long orderCommodityId;
+
+	// 订单id
+
+	// 状态
+	@Column(name = "stare")
+	private Short stare;
+	// 更新时间
+	@Column(name = "utime")
+	private Long utime;
+
+	public Box getBox() {
+		return box;
+	}
+
+	public Long getBoxId() {
+		return boxId;
+	}
+
+	public Integer getCommodityNum() {
+		return commodityNum;
+	}
+
+	public CommodityRoad getCommodityRoad() {
+		return commodityRoad;
+	}
+
+	public Long getCommodityRoadId() {
+		return commodityRoadId;
+	}
+
+	public Long getCtime() {
+		return ctime;
+	}
+
+	public Short getIsDelete() {
+		return isDelete;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public OrderCommodity getOrderCommodity() {
+		return orderCommodity;
+	}
+
+	public Long getOrderCommodityId() {
+		return orderCommodityId;
+	}
+
+	public Long getOrderCommodityRoadId() {
+		return orderCommodityRoadId;
+	}
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public Short getStare() {
+		return stare;
+	}
+
+	public Long getUtime() {
+		return utime;
+	}
+
+	public void setBox(Box box) {
+		this.box = box;
+	}
+
+	public void setBoxId(Long boxId) {
+		this.boxId = boxId;
+	}
+
+	public void setCommodityNum(Integer commodityNum) {
+		this.commodityNum = commodityNum;
+	}
+
+	public void setCommodityRoad(CommodityRoad commodityRoad) {
+		this.commodityRoad = commodityRoad;
+	}
+
+	public void setCommodityRoadId(Long commodityRoadId) {
+		this.commodityRoadId = commodityRoadId;
+	}
+
+	public void setCtime(Long ctime) {
+		this.ctime = ctime;
+	}
+
+	public void setIsDelete(Short isDelete) {
+		this.isDelete = isDelete;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public void setOrderCommodity(OrderCommodity orderCommodity) {
+		this.orderCommodity = orderCommodity;
+	}
+
+	public void setOrderCommodityId(Long orderCommodityId) {
+		this.orderCommodityId = orderCommodityId;
+	}
+
+	public void setOrderCommodityRoadId(Long orderCommodityRoadId) {
+		this.orderCommodityRoadId = orderCommodityRoadId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public void setStare(Short stare) {
+		this.stare = stare;
+	}
+
+	public void setUtime(Long utime) {
+		this.utime = utime;
+	}
+
+}

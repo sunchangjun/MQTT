@@ -1,0 +1,44 @@
+package framework.enums;
+
+public enum IsDeleteEnum {
+
+	
+		UN_DELETE(Short.parseShort("1"),"正常"),
+		DELETE(Short.parseShort("-1"),"删除"),
+		;
+		private Short type;
+		private String 	description;
+
+		private IsDeleteEnum (Short type,String description) {
+			this.type = type;
+			this.description = description;
+		}
+		
+		public Short getType() {
+			return type;
+		}
+		public String getDescription() {
+			return description;
+		}
+			
+		public static IsDeleteEnum getEnumByNumber(Short type){
+			if (type == null)
+	            return null;
+	        for (IsDeleteEnum isDeleteEnum : IsDeleteEnum.values()) {
+	            if (isDeleteEnum.getType().equals(type))
+	                return isDeleteEnum;
+	        }
+	        return null;
+		}
+		
+		public static IsDeleteEnum getEnumByDescription(String description){
+			if (description == null)
+	            return null;
+	        for (IsDeleteEnum isDeleteEnum : IsDeleteEnum.values()) {
+	            if (isDeleteEnum.getDescription().equals(description))
+	                return isDeleteEnum;
+	        }
+	        return null;
+		}
+
+}

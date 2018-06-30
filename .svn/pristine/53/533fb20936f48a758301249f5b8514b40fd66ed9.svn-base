@@ -1,0 +1,68 @@
+package framework.entity.po;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+/**
+ * 商品分类表
+ * @author Administrator
+ *
+ */
+@Entity
+@Table(name = "t_commodity_cate")
+public class CommodityCate implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2893030831861395477L;
+	//分类id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name="commodity_cate_id")
+	private Long commodityCateId;
+	//分类名称
+	@Column(name="commodity_cate_name")
+	private String commodityCateName;
+	//分类图片
+	@Column(name="pic_url")
+	private String picUrl;
+	//分类别名
+	@Column(name="commodity_cate_alias")
+	private String commodityCateAlias;
+	
+	public Long getCommodityCateId() {
+		return commodityCateId;
+	}
+	public void setCommodityCateId(Long commodityCateId) {
+		this.commodityCateId = commodityCateId;
+	}
+	public String getCommodityCateName() {
+		return commodityCateName;
+	}
+	public void setCommodityCateName(String commodityCateName) {
+		this.commodityCateName = commodityCateName;
+	}
+	public String getPicUrl() {
+		return picUrl;
+	}
+	public void setPicUrl(String picUrl) {
+		this.picUrl = picUrl;
+	}
+	public String getCommodityCateAlias() {
+		return commodityCateAlias;
+	}
+	public void setCommodityCateAlias(String commodityCateAlias) {
+		this.commodityCateAlias = commodityCateAlias;
+	}
+
+	
+	
+
+}

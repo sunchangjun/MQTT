@@ -1,0 +1,8 @@
+package framework.service;
+
+import framework.entity.po.Recycle;
+
+public interface RecycleService {
+	Recycle addRecycle(Recycle recycle);
+
+}

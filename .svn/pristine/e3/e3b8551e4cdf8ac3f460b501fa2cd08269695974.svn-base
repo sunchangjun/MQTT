@@ -1,0 +1,186 @@
+package framework.entity.po;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
+/**
+ * 货道表
+ * 
+ * @author Administrator
+ *
+ */
+@Entity
+@Table(name = "t_commodity_road")
+public class CommodityRoad implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@JSONField(serialize = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "box_port_id")
+	BoxPort boxPort;
+
+	@Column(name = "box_port_id", insertable = false, updatable = false)
+	private Long boxPortId;
+
+	@JSONField(serialize = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "box_id")
+	private Box box;
+
+	@Column(name = "box_id", insertable = false, updatable = false)
+	private Long boxId;
+	
+	@Transient
+	private List<ImageResource> imageResourceList;
+	
+	
+	
+
+	public List<ImageResource> getImageResourceList() {
+		return imageResourceList;
+	}
+
+	public void setImageResourceList(List<ImageResource> imageResourceList) {
+		this.imageResourceList = imageResourceList;
+	}
+
+	public Box getBox() {
+		return box;
+	}
+
+	public void setBox(Box box) {
+		this.box = box;
+	}
+
+	public Long getBoxId() {
+		return boxId;
+	}
+
+	public void setBoxId(Long boxId) {
+		this.boxId = boxId;
+	}
+
+	public Long getBoxPortId() {
+		return boxPortId;
+	}
+
+	public void setBoxPortId(Long boxPortId) {
+		this.boxPortId = boxPortId;
+	}
+
+	// 货道编码
+	@Column(name = "code")
+	private String code;
+	
+	@Transient
+	private Double price;
+	
+	
+
+	// 售货机串口编号
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public BoxPort getBoxPort() {
+		return boxPort;
+	}
+
+	public void setBoxPort(BoxPort boxPort) {
+		this.boxPort = boxPort;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public Commodity getCommodity() {
+		return commodity;
+	}
+
+	public void setCommodity(Commodity commodity) {
+		this.commodity = commodity;
+	}
+
+	public Integer getCommodityNum() {
+		return commodityNum;
+	}
+
+	public void setCommodityNum(Integer commodityNum) {
+		this.commodityNum = commodityNum;
+	}
+
+	public Long getCommodityRoadId() {
+		return commodityRoadId;
+	}
+
+	public void setCommodityRoadId(Long commodityRoadId) {
+		this.commodityRoadId = commodityRoadId;
+	}
+
+	public short getIsEnable() {
+		return isEnable;
+	}
+
+	public void setIsEnable(short isEnable) {
+		this.isEnable = isEnable;
+	}
+
+	@JSONField(serialize = false)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "commodity_id", insertable = false, updatable = false)
+	private Commodity commodity;
+	
+	
+	@Column(name="commodity_id")
+	private Long commodityId;
+
+	public Long getCommodityId() {
+		return commodityId;
+	}
+
+	public void setCommodityId(Long commodityId) {
+		this.commodityId = commodityId;
+	}
+
+	// 货道内商品数量
+	@Column(name = "commodity_num")
+	private Integer commodityNum;
+
+	// 货道id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name = "commodity_road_id")
+	private Long commodityRoadId;
+
+	// 是否启用(-1:未启用;1:启用)
+	@Column(name = "is_enable")
+	private short isEnable;
+
+}

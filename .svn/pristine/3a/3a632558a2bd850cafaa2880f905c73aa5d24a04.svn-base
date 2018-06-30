@@ -1,0 +1,23 @@
+package framework.dao;
+
+import java.util.List;
+
+
+import org.springframework.data.jpa.repository.Query;
+
+import framework.common.jpa.BaseRepository;
+import framework.entity.po.Commodity;
+
+public interface CommodityRepository extends BaseRepository<Commodity,Long>{
+   @Query(value="select `d`.`commodity_id` AS `commodity_id`,`d`.`commodity_name` AS `commodity_name`,`d`.`classification` AS `classification`,`d`.`specification` AS `specification`,`d`.`content` AS `content`,`d`.`price` AS `price`,`d`.`commodity_no` AS `commodity_no`,`d`.`total_sale_num` AS `total_sale_num`,`d`.`commodity_desc` AS `commodity_desc`,`d`.`enabled` AS `enabled`,`d`.`stocks` AS `stocks`,`d`.`create_time` AS `create_time`,`d`.`good_comment_rate` AS `good_comment_rate`,`d`.`is_fen` AS `is_fen`,`d`.`dian_bi` AS `dian_bi`,`d`.`bi_price` AS `bi_price` from (((`t_commodity` `d` left join `t_commodity_road` `c` on((`c`.`commodity_id` = `d`.`commodity_id`))) left join `t_box_port` `b` on((`b`.`box_port_id` = `c`.`box_port_id`))) left join `t_box_new` `a` on((`b`.`box_id` = `a`.`box_id`))) where (`a`.`box_code` = ?1) group by `d`.`commodity_id`",nativeQuery=true)
+   List<Commodity> findAllByDevice(String device);
+
+   @Query(value="select  distinct c.commodity_id ,`c`.`dian_bi` AS `dian_bi`,`c`.`bi_price` AS `bi_price`, c.commodity_name,c.price from t_box_new n,t_box_port p,t_commodity_road r,t_commodity c where n.box_code= ?1 and n.box_id=p.box_id and p.box_port_id=r.box_port_id", nativeQuery = true) 
+   List<Object[]> getCommodityByBoxCode(String boxCode);
+
+   
+   //查询柜机下有的商品id
+   @Query(value="select distinct r.commodity_id from  t_box_new b,t_box_port p,t_commodity_road r where b.box_code= ?1  and  b.box_id=p.box_id and  p.box_port_id=r.box_port_id",nativeQuery=true)
+   List<Object> getBoxCommodityIdList(String boxCode);
+
+}

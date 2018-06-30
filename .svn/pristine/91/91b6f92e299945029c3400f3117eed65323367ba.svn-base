@@ -1,0 +1,10 @@
+package framework.common.jpa.query;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.annotation.RetentionPolicy;
+@Target({java.lang.annotation.ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface QBindEntity {
+	public abstract Class<?> entityClass();
+}

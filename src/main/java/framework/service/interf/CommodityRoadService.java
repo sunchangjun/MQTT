@@ -1,0 +1,27 @@
+package framework.service.interf;
+
+import java.util.List;
+
+import framework.entity.po.CommodityRoad;
+
+public interface CommodityRoadService {
+	
+	CommodityRoad saveCommodityRoad(CommodityRoad commodityRoad);
+	
+	boolean saveCommodityRoadList(List<CommodityRoad> commodityRoadList );
+	/**
+	 * 绑定或跟换货道商品
+	 * @param boxCode
+	 * @param code
+	 * @param commodityId
+	 * @return
+	 */
+	CommodityRoad updateCommodityRoad(String boxCode, String code, Long commodityId,Integer num);
+	/**
+	 * 生成补货计划
+	 * @param boxCode
+	 * @return
+	 */
+	 boolean  generateReplenishmentPlan(String boxCode); 
+
+}

@@ -1,0 +1,80 @@
+<!-- 菜单管理 -->
+<div class="menu">
+    <div class="top-title"></div>
+    <div class="content menu-con">
+        <div class="handle">
+            <input type="text" name="" id="" placeholder="名称" class="input-text radius sea_ipt" x-field="searchName">
+			<button class="com-btn com-search-btn search-button" e-click="search">搜索</button>
+			<button class="com-btn com-add-btn search-button" e-click="add">添加</button>
+			<div class="clear"></div>
+        </div>
+        <div class="menu-table-box">
+            <table class="com-table" border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                <tr class="com-table-ths">
+                    <th class="parent-id">父级菜单</th>
+                    <th class="title">名称</th>
+                    <th class="url">链接</th>
+                    <th class="operate">操作</th>
+                </tr>
+                </thead>
+                <tbody x-if="total == 0">
+                <tr>
+                    <td class="com-no-data" colspan="5">暂无数据</td>
+                </tr>
+                </tbody>
+                <tbody x-else>
+                <tr class="com-table-tds" x-if="is_add">
+                    <td class="parent-id">
+                        <select name="" class="menu_select" x-field='parentId'>
+                        	<option value="" selected="selected">请选择...</option>
+							<option x-repeat='menu_listF' value="{{menuId}}">{{title}}</option>
+						</select>
+					</td>
+                    <td class="title"><input class="com-input-wrap insert-input" x-field="add_title"></td>
+                    <td class="url"><input class="com-input-wrap insert-input" x-field="add_url"></td>		<!-- x-if="show_url"-->
+                    <td class="operate">
+                        <span class="com-btn com-wait-span" e-click="confirmAdd">确定</span>
+                        <span class="com-btn com-pass-span" e-click="confirmCancel">取消</span>
+                    </td>
+                </tr>
+                <tr x-repeat="menu_list" class="com-table-tds com-row-hover" x-class="{'com-table-tr-choose':'is_edit'}">
+                    <td class="parent-id">{{prentName}}</td>
+                    <td class="title">{{title}}</td>
+                    <td class="url">{{url}}</td>
+                    <td class="operate">
+                        <button class="com-btn com-revise-btn" e-click="alterItem">修改</button>
+                        <button class="com-btn com-dele-btn" e-click="deleteItem">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="el-paging-menu">
+        	<div class="com-plugin-paging">
+			    <span>共<span class="red">{{total}}</span>条记录</span>
+			    <span>共<span class="red">{{all_page}}</span>页</span>
+			    <span>当前第<span class="red">{{page}}</span>页</span>
+			    <div class="to-prev" x-class="{'can-not':'page==1'}" e-click="toPrev">上一页</div>
+			    <div class="to-next" x-class="{'can-not':'page==all_page'}" e-click="toNext">下一页</div>
+			    <span>转到:</span>
+			    <input type="number" x-field="to_page">
+			    <div class="go-to" e-click="goTo">GO</div>
+			</div>
+        </div>
+    </div>
+    <div class="tips_sta" x-show='tip_open'>
+		<div class="tip_icon" x-class="{'icon_suc':'icon_tip>=2','icon_den':'icon_tip<=1'}"></div>
+		{{tips_tit}}
+	</div>
+	<div class="opt" x-show='pop'></div>
+	<div class="radius" id="classify_det" x-show='pop'>
+		<div class="cls_ipt">
+			确定删除该广告吗？
+		</div>
+		<div class="cls_btns">
+			<button class="radius btn_sty_can" e-click='close_del'>取消</button>
+			<button class="radius btn_sty" e-click='del_adv'>确定</button>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,302 @@
+package framework.controller;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import framework.common.jpa.Query;
+import framework.common.jpa.Select;
+import framework.common.result.Code;
+import framework.common.result.Message;
+import framework.common.result.Result;
+import framework.dao.BoxRepository;
+import framework.entity.po.Box;
+import framework.entity.po.BoxPort;
+import framework.entity.po.CommodityRoad;
+import framework.enums.IsDeleteEnum;
+import framework.enums.Success;
+import framework.service.BoxService;
+
+@Controller
+@RequestMapping("/box")
+public class BoxController {
+
+	private static Logger log = LoggerFactory.getLogger(BoxController.class);
+
+	@Autowired
+	private BoxService boxService;
+
+	@Autowired
+	private BoxRepository boxRepository;
+
+	/**
+	 * 售货机商品管理
+	 * 
+	 * @param pages
+	 * @param rows
+	 * @param isEnable
+	 * @param areaId
+	 * @param boxCode
+	 * @return
+	 */
+	@RequestMapping(value = "/getBoxPage", method = RequestMethod.POST)
+	@ResponseBody
+	public Result getBoxPage(Integer pages, Integer rows, Short isEnable, Long areaId, String boxCode) {
+		if (null == pages || null == rows) {
+			Message message = new Message();
+			message.setErrno(Code.GWSCOD0003);
+			message.setErrmsg(Code.GWSMSG0003);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}
+
+		Query<Box> boxQuery = new Query<Box>();
+		if (null != areaId) {
+			boxQuery.add((Select.eq("areaId", areaId)));
+		}
+		if (StringUtils.isNotBlank(boxCode)) {
+			boxQuery.add((Select.eq("boxCode", boxCode)));
+		}
+		if (null != isEnable) {
+			boxQuery.add((Select.eq("status", isEnable)));
+		}
+
+		Page<Box> boxPage = null;
+		try {
+			Pageable pa = new PageRequest(pages-1, rows);
+			boxPage = boxRepository.findAll(boxQuery, pa);
+			if (CollectionUtils.isNotEmpty(boxPage.getContent())) {
+				List<Long> boxIdList = new ArrayList<Long>();
+				for (Box box : boxPage.getContent()) {
+					boxIdList.add(box.getBoxId());
+				}
+				// 查询在线商品种类
+				List<Object[]> objectList = boxRepository.getBoxIdAndCommodityIdCount(boxIdList);
+				if (CollectionUtils.isNotEmpty(objectList)) {
+					for (Object[] objects : objectList) {
+						Long boxId = Long.valueOf(objects[0].toString());
+						Integer count = Integer.valueOf(objects[1].toString());
+						for (Box box : boxPage.getContent()) {
+							if (boxId.equals(box.getBoxId())) {
+								box.setTypeOfSale(count);
+							}
+						}
+
+					}
+
+				}
+				// 售空货道数量
+				List<Object[]> nullRoadList = boxRepository.getNullRoadCount(boxIdList);
+				if (CollectionUtils.isNotEmpty(nullRoadList)) {
+					for (Object[] objects : nullRoadList) {
+						Long boxId = Long.valueOf(objects[0].toString());
+						Integer nullRoadNumber = Integer.valueOf(objects[1].toString());
+						for (Box box : boxPage.getContent()) {
+							if (boxId.equals(box.getBoxId())) {
+								// 空货道数量
+								box.setNullRoadNumber(nullRoadNumber);
+								// 可售货道百分比
+								if(null != box.getCargoRoadNumber()) {
+									double dou =  nullRoadNumber / box.getCargoRoadNumber();
+									DecimalFormat df = new DecimalFormat("#.0");
+									String commodityStatus = "可售[" + df.format(dou*100) + "%]";
+									System.out.println(dou);
+									System.out.println(commodityStatus);
+									box.setPercentage1(commodityStatus);
+								}
+								
+							}
+						}
+
+					}
+
+				}
+
+			}
+
+		} catch (Exception e) {
+			Message message = new Message();
+			message.setErrno(Code.GWSCOD0001);
+			message.setErrmsg(Code.GWSMSG0001);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}
+		return Result.setData(Success.TRUE.getDescription(), boxPage);
+	}
+	/**
+	 * 售货机库存监控
+	 * 
+	 * @param pages
+	 * @param rows
+	 * @param isEnable
+	 * @param areaId
+	 * @param boxCode
+	 * @return
+	 */
+	@RequestMapping(value = "/getCommodityRoadPage", method = RequestMethod.POST)
+	@ResponseBody
+	public Result getCommodityRoadPage(Integer pages, Integer rows, Short isEnable, Long areaId, String boxCode) {
+		if (null == pages || null == rows) {
+			Message message = new Message();
+			message.setErrno(Code.GWSCOD0003);
+			message.setErrmsg(Code.GWSMSG0003);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}
+
+		Query<Box> boxQuery = new Query<Box>();
+		if (null != areaId) {
+			boxQuery.add((Select.eq("areaId", areaId)));
+		}
+		if (StringUtils.isNotBlank(boxCode)) {
+			boxQuery.add((Select.eq("boxCode", boxCode)));
+		}
+		if (null != isEnable) {
+			boxQuery.add((Select.eq("status", isEnable)));
+		}
+
+		Page<Box> boxPage = null;
+		try {
+			Pageable pa = new PageRequest(pages-1, rows);
+			boxPage = boxRepository.findAll(boxQuery, pa);
+			if (CollectionUtils.isNotEmpty(boxPage.getContent())) {
+				List<Long> boxIdList = new ArrayList<Long>();
+				for (Box box : boxPage.getContent()) {
+					boxIdList.add(box.getBoxId());
+					//能装总库存容量
+					box.setSumStocks(box.getCargoRoadNumber()*5);
+				}
+				// 现有库存总数量				
+				List<Object[]> objectList = boxRepository.getStocksCommodityNumber(boxIdList);
+				//配置商品种类
+				List<Object[]> comCount = boxRepository.getCount(boxIdList);			
+				// 售空货道数量
+				List<Object[]> nullRoadList = boxRepository.getNullRoadCount(boxIdList);
+				for (Box box : boxPage.getContent()) {
+					// 现有库存总数量	
+					if (CollectionUtils.isNotEmpty(objectList)) {
+						for (Object[] objects : objectList) {
+							Long boxId = Long.valueOf(objects[0].toString());
+							Integer existingStocks = Integer.valueOf(objects[1].toString());					
+								if (boxId.equals(box.getBoxId())) {
+									box.setExistingStocks(existingStocks);
+									//库存占百分比
+								double exe=	existingStocks/box.getSumStocks()*100;
+								box.setPercentage1(exe+"%");
+								}
+						}
+
+					}
+					// 售空货道数量			
+					if (CollectionUtils.isNotEmpty(nullRoadList)) {
+						for (Object[] objects : nullRoadList) {
+							Long boxId = Long.valueOf(objects[0].toString());
+							Integer nullRoadNumber = Integer.valueOf(objects[1].toString());
+								if (boxId.equals(box.getBoxId())) {
+									// 空货道数量
+									box.setNullRoadNumber(nullRoadNumber);
+									if(null != box.getCargoRoadNumber()) {
+										double dou =  nullRoadNumber / box.getCargoRoadNumber()*100;
+										box.setPercentage2(dou+"%");;
+									}									
+								}						
+						}
+					}
+					//配置商品种类
+					if(CollectionUtils.isNotEmpty(comCount)) {
+						List<String> comnameList=new  ArrayList<String>();
+						for (Object[] objects : comCount) {
+							Long boxId = Long.valueOf(objects[0].toString());
+							String comName=objects[1].toString();
+							if (boxId.equals(box.getBoxId())) {
+								comnameList.add(comName);
+							}
+						}
+						box.setPickingName(comnameList);
+					}
+					
+					
+					
+				}
+	
+
+			}
+
+		} catch (Exception e) {
+			Message message = new Message();
+			message.setErrno(Code.GWSCOD0001);
+			message.setErrmsg(Code.GWSMSG0001);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}
+		return Result.setData(Success.TRUE.getDescription(), boxPage);
+	}
+	/**
+	 * 
+	 * @param box_code
+	 *            设备机身号
+	 * @param area_id
+	 *            区域编号
+	 * @param cargo_road_number
+	 *            货道数量
+	 * @return
+	 */
+	// 创建售货机
+	@RequestMapping(value = "/createBox", method = RequestMethod.POST)
+	@ResponseBody
+	public Result createBox(String box_code, Long area_id, Integer cargo_road_number) {
+		log.info("创建添加新售货机开始");
+		// 参数检查
+		boolean bool = StringUtils.isBlank(box_code) || null == area_id || area_id < 0 || null == cargo_road_number
+				|| cargo_road_number < 0;
+		if (bool) {
+			Message message = new Message();
+			message.setErrno(Code.GWSCOD0003);
+			message.setErrmsg(Code.GWSMSG0003);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}
+		// 生成售货机二维码
+		log.info("调取创建二维码接口,创建二维码");
+		String code_img_url = "";
+		// TODO 需要生成二维码规则,及完善二维码调用接口
+		log.info("打印二维码数据:code_img_url={}", code_img_url);
+		// 生成key
+		String key = "";
+		log.info("打印生成的key值:key={}", key);
+
+		// 生成数据
+		Box box = new Box();
+		box.setAreaId(area_id);
+		box.setBoxCode(box_code);
+		box.setBoxKey(key);
+		box.setCodeImgUrl(code_img_url);
+		box.setCtime(new Date().getTime());
+		box.setStatus(IsDeleteEnum.UN_DELETE.getType());
+		box.setCargoRoadNumber(cargo_road_number);
+
+		// 添加售货机
+		Box dbReturnBox = null;
+		try {
+			dbReturnBox = boxService.addBox(box);
+		} catch (Exception e) {
+			Message message = new Message();
+			message.setErrno(Code.GWSCOD0001);
+			message.setErrmsg(Code.GWSMSG0001);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}
+
+		return Result.setData(Success.TRUE.getDescription(), dbReturnBox);
+
+	}
+
+}

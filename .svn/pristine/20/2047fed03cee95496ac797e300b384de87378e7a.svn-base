@@ -1,0 +1,17 @@
+package framework.service;
+
+import java.util.Map;
+
+import framework.entity.po.Box;
+import framework.entity.po.Order;
+
+public interface OrderService {
+	/**
+	 * 创建订单
+	 * @param saleRoadList
+	 * @param commodity_num
+	 * @return
+	 */
+	Order createOrder(Map<Long, Integer> saleRoadList, Box box) ;
+
+}

@@ -1,0 +1,26 @@
+package Test.Dao;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.alibaba.fastjson.JSONObject;
+
+import Test.Base.BaseJunitTest;
+import framework.dao.SettingRepository;
+import framework.entity.po.Setting;
+
+public class testSetting extends BaseJunitTest {
+	@Autowired
+	SettingRepository settingRepository;
+	
+	
+	@Test
+	public void test(){
+		Setting s=new Setting();
+		s.setId(1L);
+		s.setCode("www.baidu.com");
+		s.setTitle("baidu____");
+		System.out.println(JSONObject.toJSONString(settingRepository.save(s)));;
+	}
+
+}

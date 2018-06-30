@@ -1,0 +1,23 @@
+//package Test.Controller;
+//
+//import org.junit.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//
+//import com.alibaba.fastjson.JSONObject;
+//
+//import Test.Base.BaseJunitTest;
+//import framework.controller.OrderController;
+//
+//
+//
+//public class testOrderController extends BaseJunitTest {
+//	
+//	@Autowired
+//	 OrderController orderController;
+//	
+//	@Test
+//	public void test(){
+//		System.out.println(JSONObject.toJSONString(orderController.findOrderById(1L)));;
+//	}
+//
+//}

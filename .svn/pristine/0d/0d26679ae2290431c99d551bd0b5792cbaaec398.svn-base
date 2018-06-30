@@ -1,0 +1,12 @@
+package framework.common.jpa.query;
+
+public enum Where {
+	in,
+	like,
+	equal,
+	notEqual,
+	lessThan,
+	lessThanOrEqualTo,
+	greaterThan,
+	greaterThanOrEqualTo
+}

@@ -1,0 +1,13 @@
+package framework.dao;
+
+import framework.common.jpa.BaseRepository;
+import framework.entity.po.Adv;
+
+/**
+ * 广告
+ * @author Administrator
+ *
+ */
+public interface AdvRepository extends BaseRepository<Adv, Long> {
+
+}

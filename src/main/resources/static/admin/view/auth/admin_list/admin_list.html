@@ -1,0 +1,57 @@
+<!--管理员列表-->
+<div class="admin-list">
+	<div class="el-title"></div>
+	<div class="content admin-list-con">
+		<div class="handle">
+			<input type="text" name="" id="" placeholder="名称" class="input-text radius sea_ipt" x-field="searchName">
+			<button class="com-btn com-search-btn search-button" e-click="search">搜索</button>
+			<button class="com-btn com-add-btn search-button" e-click="addItem">添加管理员</button>
+			<div class="clear"></div>
+		</div>
+		<div>
+			<table class="com-table">
+				<thead>
+					<tr class="com-table-ths">
+						<th class="real-name">序号</th>
+						<th class="user-name">用户名称</th>
+						<th class="user-name">密码</th>
+						<th class="operate">操作</th>
+					</tr>
+				</thead>
+				<tbody x-if="total == 0">
+					<tr>
+						<th class="com-no-data" colspan="4">暂无数据</th>
+					</tr>
+				</tbody>
+				<tbody x-else>
+					<tr x-repeat="user_list" class="com-table-tds">
+						<td class="real-name">{{$index+1}}</td>
+						<td class="user-name">{{userName}}</td>
+						<td class="user-name">{{userPwd}}</td>
+						<td class="operate">
+							<button class="com-btn com-revise-btn" e-click="editItem">角色分配</button>
+							<!--<button class="com-btn com-dele-btn" e-click="frozen">冻结</button>
+							<button class="com-btn com-add-btn" e-click="unfrozen">解冻</button>-->
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="el-paging">
+				<div class="com-plugin-paging">
+				    <span>共<span class="red">{{total}}</span>条记录</span>
+				    <span>共<span class="red">{{all_page}}</span>页</span>
+				    <span>当前第<span class="red">{{page}}</span>页</span>
+				    <div class="to-prev" x-class="{'can-not':'page==1'}" e-click="toPrev">上一页</div>
+				    <div class="to-next" x-class="{'can-not':'page==all_page'}" e-click="toNext">下一页</div>
+				    <span>转到:</span>
+				    <input type="number" x-field="to_page">
+				    <div class="go-to" e-click="goTo">GO</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tips_sta" x-show='tip_open'>
+		<div class="tip_icon" x-class="{'icon_suc':'icon_tip>=2','icon_den':'icon_tip<=1'}"></div>
+		{{tips_tit}}
+	</div>
+</div>

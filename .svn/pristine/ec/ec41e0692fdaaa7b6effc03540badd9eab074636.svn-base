@@ -1,0 +1,53 @@
+package framework.common;
+
+public class TianDianPage {
+	
+	//记录总条数
+	private  Integer  total;
+	
+	//总页数
+	private  Integer  pages;
+	
+	//当前页
+	private Integer currentPage;
+	
+	//内容 
+	private Object content;
+
+	public Integer getTotal() {
+		return total;
+	}
+
+	public void setTotal(Integer total) {
+		this.total = total;
+	}
+
+	public Integer getPages() {
+		return pages;
+	}
+
+	public void setPages(Integer pages) {
+		this.pages = pages;
+	}
+
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public Object getContent() {
+		return content;
+	}
+
+	public void setContent(Object content) {
+		this.content = content;
+	}
+
+
+	
+	
+
+}

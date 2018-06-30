@@ -1,0 +1,25 @@
+package framework.dao;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import framework.common.jpa.BaseRepository;
+import framework.entity.po.OrderCommodityRoad;
+
+/**
+ * 订单货道表
+ * @author Administrator
+ *
+ */
+public interface OrderCommodityRoadRepository extends BaseRepository<OrderCommodityRoad,Long>{
+	
+//	@Query("select o from OrderCommodityRoad o where o.orderId = ?1  and o.isDelete =1")
+//	List<OrderCommodityRoad>  getOrderCommodityRoadListByOrderId(Long order_id);
+	
+//	@Query("select r.commodity_road_id ,r.`code`,r.commodity_id,i.url,r.commodity_num from t_box_new n,t_box_port p,t_commodity_road r,t_image_resource i where n.box_id=p.box_id and p.box_port_id=r.box_port_id and r.commodity_id=i.commodity_id\r\n" + 
+//			"")
+//	List<Object[]> getCommodityStocks();
+//
+}

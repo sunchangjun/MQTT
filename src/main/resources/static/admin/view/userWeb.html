@@ -1,0 +1,37 @@
+<!--盒子-->
+<div id="web-div" class="height-all">
+    <!--页脚-->
+    <div class="footer">
+        <div x-repeat="rows" x-route="{{path}}"  active="active" e-click="HomeSwitcher">
+            <div class="{{class}}" x-class="{'menu_sty':'menu_cheak'}">
+            	{{title}}
+            </div>
+            <div class="sub_menu_list" style="height: {{sub_menu_height}}px;">
+	            <div x-repeat="Submenu">
+	                <div class="{{class}}" x-class="{'menu_sty2':'menu_cheak2'}" e-click="twoMenu_s">
+	                    {{two_name}}
+	                </div>
+	            </div>
+            </div>
+        </div>
+    </div>
+    <!--右侧内容-->
+    <div class="right-content height-all">
+        <!--页头-->
+        <div class="header">
+           	<div class="nav_handle">
+				天点商城
+				<div class="down_img"></div>
+				<ul class="handle_mod">
+					<!-- <li><a href="../../assets/rest_password.html">修改密码</a></li> -->
+					<li><a href="/logout">退出登陆</a></li>
+				</ul>
+			</div>
+        </div>
+        <!--内容-->
+        <div x-router class="content"></div>
+    </div>
+</div>
+
+
+

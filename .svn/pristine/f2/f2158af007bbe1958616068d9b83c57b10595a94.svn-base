@@ -1,0 +1,36 @@
+package Test.Dao;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.alibaba.fastjson.JSONObject;
+
+import Test.Base.BaseJunitTest;
+import framework.common.jpa.Query;
+import framework.common.jpa.Select;
+import framework.dao.CommodityRepository;
+import framework.entity.po.Commodity;
+
+public class testCommodityRepository extends BaseJunitTest {
+	
+	@Autowired
+	CommodityRepository commodityRepository;
+	
+	@Test
+	public void test(){
+//		System.out.println(JSONObject.toJSONString(commodityRepository.getCommodity()));;
+//		List<Commodity> list=commodityRepository.findAll();
+//		System.out.println(JSONObject.toJSONString(list));
+//		List<Commodity>commodityList= commodityRepository.findAll();
+		List<Long> crIdList=new ArrayList<Long>(Arrays.asList(1L,2L));
+		Query<Commodity> query=new Query<Commodity>();
+		query.add(Select.in("commodityId", crIdList,true ));
+	List<Commodity> list=commodityRepository.findAll(query);
+	System.out.println(JSONObject.toJSONString(list));
+	}
+
+}

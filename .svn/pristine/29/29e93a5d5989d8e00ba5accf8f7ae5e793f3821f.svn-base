@@ -1,0 +1,89 @@
+package framework.entity.po;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
+
+/**
+ * 补货商品详情表
+ * @author Administrator
+ *
+ */
+@Entity
+@Table(name = "t_replenishment_plan_commodity")
+public class ReplenishmentPlanCommodity implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8068426231684911935L;
+	//主键id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name="replenishment_plan_commodity_id")
+	private Long replenishmentPlanCommodity_id;
+	
+	//计划表id
+	@JSONField(serialize = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "replenishment_plan_id")
+	private  ReplenishmentPlan replenishmentPlan;
+	//商品id
+	@JSONField(serialize = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "commodity_id")
+	private  Commodity commodity;
+	//货道id
+	@Column(name="commodity_road_id")
+	private Long commodityRoadId;
+	//商品数量
+	@Column(name="commodity_num")
+	private Integer commodityNum;
+	public Long getReplenishmentPlanCommodity_id() {
+		return replenishmentPlanCommodity_id;
+	}
+	public void setReplenishmentPlanCommodity_id(Long replenishmentPlanCommodity_id) {
+		this.replenishmentPlanCommodity_id = replenishmentPlanCommodity_id;
+	}
+
+	
+	public ReplenishmentPlan getReplenishmentPlan() {
+		return replenishmentPlan;
+	}
+	public void setReplenishmentPlan(ReplenishmentPlan replenishmentPlan) {
+		this.replenishmentPlan = replenishmentPlan;
+	}
+	public Commodity getCommodity() {
+		return commodity;
+	}
+	public void setCommodity(Commodity commodity) {
+		this.commodity = commodity;
+	}
+	public Long getCommodityRoadId() {
+		return commodityRoadId;
+	}
+	public void setCommodityRoadId(Long commodityRoadId) {
+		this.commodityRoadId = commodityRoadId;
+	}
+	public Integer getCommodityNum() {
+		return commodityNum;
+	}
+	public void setCommodityNum(Integer commodityNum) {
+		this.commodityNum = commodityNum;
+	}
+	
+	
+	
+	
+
+}

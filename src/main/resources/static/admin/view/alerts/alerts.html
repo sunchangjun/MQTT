@@ -1,0 +1,87 @@
+<div id="alert" class="con_sty">
+	<div class="body_box" id="">
+		<div class="sear_box">
+			<button class="radius btn_sty">导出</button>
+			<div class="con-rgt">
+				<input type="text" name="" id="test1" placeholder="请选择日期" e-click='time_ipt' class="input-text ml_10 radius date_ipt">
+				<span class="select-box inline radius">
+					<select name="" class="select" >
+						<option value="">售货机型号</option>
+					</select>
+				</span>
+				<span class="select-box inline radius">
+					<select name="" class="select">
+						<option value="">异常类型</option>
+					</select>
+				</span>
+				<span class="select-box inline radius">
+					<select name="" class="select">
+						<option value="">异常状态</option>
+					</select>
+				</span>
+				<input type="text" name="" id="" placeholder="编号/点位名称" style="width:150px" class="input-text ml_10 radius">
+				<input type="button" name="" id="" class="sear_btn radius" value="" />
+			</div>
+		</div>
+		<div class="mt_20 tab_box">
+			<table class="">
+				<thead>
+					<tr class="text-c">
+						<th>序号</th>
+						<th>异常级别</th>
+						<th>异常类型</th>
+						<th>异常内容</th>
+						<th>状态</th>
+						<th>异常上报时间</th>
+						<th>异常售货机</th>
+						<th>所属点位</th>
+						<th>所属分区</th>
+						<th>所属路线</th>
+						<th>售货机型号</th>
+						<th>操作</th>
+						<th>备注</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-c" x-repeat='goods_list'>
+						<td>{{id}}</td>
+						<td>{{lev}}</td>
+						<td>{{nx}}</td>
+						<td>{{nr}}</td>
+						<td>{{sta}}</td>
+						<td>{{time}}</td>
+						<td>{{sh}}</td>
+						<td>{{dw}}</td>
+						<td>{{fq}}</td>
+						<td>{{xl}}</td>
+						<td>{{mod}}</td>
+						<td><span class="remove" e-click='remove_sta'>解除</span></td>
+						<td>{{bz}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="opt" x-show='pop'></div>
+		<div class="radius" id="classify_det" x-show='pop'>
+			<div class="cls_ipt">
+				确定该项操作吗？
+			</div>
+			<div class="cls_btns">
+				<button class="radius btn_sty_can" e-click='cancle_pop'>取消</button>
+				<button class="radius btn_sty" e-click='suc_tip'>确定</button>
+			</div>
+		</div>
+	</div>
+	<div class="pag_box bod_top">
+		<input type="button" class="pag_btn ml_30" name="" id="" value="上一页" e-click='up_page' />
+		<span class="pag_sp ml_10">{{pages}}/{{sum_pages}}</span>
+		<input type="button" class="pag_btn ml_10" name="" id="" value="下一页" e-click='down_page' />
+		<span class="sum_data">共有数据：<strong> {{sum_data}}</strong> </span>
+	</div>
+	<div class="tips_sta" x-show='tip_open'>
+		没有更多了
+	</div>
+	<div class="tips_sta" x-show='re_suc'>
+		解除成功
+	</div>
+</div>

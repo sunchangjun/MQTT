@@ -1,0 +1,105 @@
+html {
+	height: 100%;
+}
+
+input {
+	outline: none;
+	border: none;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+	background: url(imgs/bodyBg.png) no-repeat;
+	background-size: 100% 100%;
+}
+
+.login_box {
+	width: 550px;
+	height: 600px;
+	background-color: white;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	position: absolute;
+	margin: auto;
+	border-radius: 10px;
+	box-shadow: 0 0 20px 5px #333333;
+}
+
+.log_img {
+	width: 100%;
+	display: block;
+}
+
+.login_meg {
+	width: 430px;
+	margin: auto;
+	overflow: hidden;
+	position: relative;
+}
+
+.login_ipt {
+	border: 1px solid #ebebeb;
+	display: block;
+	width: calc(100% - 2px);
+	background-color: #ebebeb;
+	height: 60px;
+	color: #666666;
+	border-radius: 5px;
+	font-size: 18px;
+	text-indent: 60px;
+}
+
+.login_ipt:hover {
+	border: 1px solid #2eadf5;
+}
+
+.user_icon {
+	position: absolute;
+	height: 24px;
+	left: 20px;
+	top: 19px;
+}
+
+.mt_50 {
+	margin-top: 50px;
+}
+
+.mt_20 {
+	margin-top: 20px;
+}
+
+.cheak {
+	height: 22px;
+	width: 22px;
+	border: 1px solid #a0a0a0;
+	display: block;
+	float: left;
+}
+
+.rem_pas {
+	color: #666666;
+	text-indent: 20px;
+	font-size: 16px;
+}
+
+.login_btn {
+	display: block;
+	height: 60px;
+	width: 100%;
+	background: #9c68c6;
+	border-radius: 5px;
+	color: #ffffff;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.ok_icon {
+	width: 22px;
+	display: block;
+	-webkit-user-select: none;
+}

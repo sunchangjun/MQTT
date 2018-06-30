@@ -1,0 +1,538 @@
+package framework.controller.back;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
+import framework.common.JSONExt;
+import framework.common.JSONText;
+import framework.common.TianDianPage;
+import framework.common.jpa.Query;
+import framework.common.jpa.Select;
+import framework.common.result.Code;
+import framework.common.result.Message;
+import framework.common.result.Result;
+import framework.dao.BoxPortRepository;
+import framework.dao.BoxRepository;
+import framework.dao.CommodityRepository;
+import framework.dao.ImageResourceRepository;
+import framework.entity.dto.BoxDTO;
+import framework.entity.dto.BoxPortDTO;
+import framework.entity.dto.CommodityRoadDTO;
+import framework.entity.po.Box;
+import framework.entity.po.BoxPort;
+import framework.entity.po.Commodity;
+import framework.entity.po.CommodityRes;
+import framework.entity.po.CommodityRoad;
+import framework.entity.po.ImageResource;
+import framework.enums.IsDeleteEnum;
+import framework.service.interf.BoxService;
+
+@Controller
+@RequestMapping("/back/box")
+public class BoxController {
+
+	private static Logger log = LoggerFactory.getLogger(BoxController.class);
+
+	@Autowired
+	private BoxService boxService;
+
+	@Autowired
+	private BoxRepository boxRepository;
+
+	@Autowired
+	private BoxPortRepository boxPortRepository;
+
+	@Autowired
+	private ImageResourceRepository imageResourceRepository;
+
+	@Autowired
+	private CommodityRepository commodityRepository;
+	
+	
+	@RequestMapping(value = "/addOrUpdateBox")
+	@ResponseBody
+	public Result addOrUpdateBox(Box box) {
+		if (null == box || null == box.getAreaId() || StringUtils.isBlank(box.getBoxCode())) {
+			return Result.setData(false, Code.getMessage(Code.CNUM003));
+		}
+		JSONObject jo = null;
+		try {
+			Box dbReturnBox = boxService.addBox(box);
+			if (null != dbReturnBox) {
+				jo = JSONText.JavaBeanToJsonObject(dbReturnBox);
+			}
+		} catch (Exception e) {
+			return Result.setData(false, Code.getMessage(Code.CNUM001));
+		}
+
+		return Result.setData(true, jo);
+	}
+
+	@RequestMapping(value = "/getAllBox")
+	@ResponseBody
+	public Result getAllBox(Integer pages, Integer rows, Short isEnable, Long areaId, String boxCode) {
+		if (null == pages || null == rows) {
+			return Result.setData(false, Code.getMessage(Code.CNUM003));
+		}
+
+		Query<Box> boxQuery = new Query<Box>();
+		if (null != areaId) {
+			boxQuery.add((Select.eq("areaId", areaId)));
+		}
+		if (StringUtils.isNotBlank(boxCode)) {
+			boxQuery.add((Select.eq("boxCode", boxCode)));
+		}
+		if (null != isEnable) {
+			boxQuery.add((Select.eq("status", isEnable)));
+		}
+		JSONArray ja = new JSONArray();
+		Page<Box> boxPage = null;
+		try {
+			Pageable pa = new PageRequest(pages - 1, rows);
+			boxPage = boxRepository.findAll(boxQuery, pa);
+			if (CollectionUtils.isNotEmpty(boxPage.getContent())) {
+				for (Box box : boxPage.getContent()) {
+					JSONObject jo = JSONText.JavaBeanToJsonObject(box);
+					ja.add(jo);
+				}
+
+			}
+
+		} catch (Exception e) {
+			return Result.setData(false, Code.getMessage(Code.CNUM001));
+		}
+		TianDianPage tianDianPage = new TianDianPage();
+		if (null != pages) {
+			tianDianPage.setContent(ja);
+			tianDianPage.setCurrentPage(boxPage.getNumber());
+			tianDianPage.setTotal(boxPage.getTotalElements());
+			tianDianPage.setPageCount(boxPage.getTotalPages());
+		}
+
+		return Result.setData(true, tianDianPage);
+	}
+
+	@RequestMapping(value = "/getOneBox")
+	@ResponseBody
+	public Result getOneBox(Long boxId) {
+		if (null == boxId) {
+			return Result.setData(false, Code.getMessage(Code.CNUM003));
+		}
+		JSONObject jo = new JSONObject();
+		try {
+			Box bdBox = boxRepository.findOne(boxId);
+			if(null != bdBox){
+				jo=JSONText.JavaBeanToJsonObject(bdBox);
+			}
+		} catch (Exception e) {
+			return Result.setData(false, Code.getMessage(Code.CNUM001));
+		}
+
+		return Result.setData(true, jo);
+
+	}
+
+	/**
+	 * 售货机商品管理
+	 * 
+	 * @param pages
+	 * @param rows
+	 * @param isEnable
+	 * @param areaId
+	 * @param boxCode
+	 * @return
+	 */
+	@RequestMapping(value = "/getBoxPage")
+	@ResponseBody
+	public Result getBoxPage(Integer pages, Integer rows, Short isEnable, Long areaId, String boxCode) {
+		if (null == pages || null == rows) {
+			return Result.setData(false, Code.getMessage(Code.CNUM003));
+		}
+
+		Query<Box> boxQuery = new Query<Box>();
+		if (null != areaId) {
+			boxQuery.add((Select.eq("areaId", areaId)));
+		}
+		if (StringUtils.isNotBlank(boxCode)) {
+			boxQuery.add((Select.eq("boxCode", boxCode)));
+		}
+		if (null != isEnable) {
+			boxQuery.add((Select.eq("status", isEnable)));
+		}
+		List<BoxDTO> boxdtoList = new ArrayList<BoxDTO>();
+		Page<Box> boxPage = null;
+		try {
+			Pageable pa = new PageRequest(pages - 1, rows);
+			boxPage = boxRepository.findAll(boxQuery, pa);
+			if (CollectionUtils.isNotEmpty(boxPage.getContent())) {
+
+				List<Long> boxIdList = new ArrayList<Long>();
+
+				for (Box box : boxPage.getContent()) {
+					BoxDTO boxDTO = new BoxDTO();
+					BeanUtils.copyProperties(boxDTO, box);
+					boxIdList.add(box.getBoxId());
+					boxdtoList.add(boxDTO);
+				}
+				// 查询在线商品种类
+				List<Object[]> objectList = boxRepository.getBoxIdAndCommodityIdCount(boxIdList);
+				if (CollectionUtils.isNotEmpty(objectList)) {
+					for (Object[] objects : objectList) {
+						Long boxId = Long.valueOf(objects[0].toString());
+						Integer count = Integer.valueOf(objects[1].toString());
+						for (BoxDTO box : boxdtoList) {
+							if (boxId.equals(box.getBoxId())) {
+								box.setTypeOfSale(count);
+							}
+						}
+
+					}
+
+				}
+				// 售空货道数量
+				List<Object[]> nullRoadList = boxRepository.getNullRoadCount(boxIdList);
+				if (CollectionUtils.isNotEmpty(nullRoadList)) {
+					for (Object[] objects : nullRoadList) {
+						Long boxId = Long.valueOf(objects[0].toString());
+						Integer nullRoadNumber = Integer.valueOf(objects[1].toString());
+						for (BoxDTO box : boxdtoList) {
+							if (boxId.equals(box.getBoxId())) {
+								// 空货道数量
+								box.setNullRoadNumber(nullRoadNumber);
+								// 可售货道百分比
+								if (null != box.getCargoRoadNumber()) {
+									double dou = (double) nullRoadNumber / box.getCargoRoadNumber() * 100;
+									DecimalFormat df = new DecimalFormat("#.0");
+									String commodityStatus = "可售[" + df.format(dou) + "%]";
+
+									box.setPercentage1(commodityStatus);
+								}
+
+							}
+						}
+
+					}
+
+				}
+
+			}
+
+		} catch (Exception e) {
+			return Result.setData(false, Code.getMessage(Code.CNUM001));
+		}
+
+		TianDianPage tianDianPage = new TianDianPage();
+		if (null != boxPage) {
+			if (CollectionUtils.isNotEmpty(boxdtoList)) {
+				JSONArray jarr = new JSONArray();
+				for (BoxDTO box : boxdtoList) {
+					JSONObject jo = JSON.parseObject(JSONObject.toJSONString(box));
+					jarr.add(jo);
+				}
+				tianDianPage.setContent(jarr);
+				tianDianPage.setCurrentPage(boxPage.getNumber());
+				tianDianPage.setTotal(boxPage.getTotalElements());
+				tianDianPage.setPageCount(boxPage.getTotalPages());
+			}
+
+		}
+
+		return Result.setData(true, tianDianPage);
+	}
+
+	/**
+	 * 售货机库存监控
+	 * 
+	 * @param pages
+	 * @param rows
+	 * @param isEnable
+	 * @param areaId
+	 * @param boxCode
+	 * @return
+	 */
+	@RequestMapping(value = "/getCommodityRoadPage", method = RequestMethod.POST)
+	@ResponseBody
+	public Result getCommodityRoadPage(Integer pages, Integer rows, Short isEnable, Long areaId, String boxCode) {
+		List<BoxDTO> boxdtoList = new ArrayList<BoxDTO>();
+		if (null == pages || null == rows) {
+			return Result.setData(false, Code.getMessage(Code.CNUM003));
+		}
+
+		Query<Box> boxQuery = new Query<Box>();
+		if (null != areaId) {
+			boxQuery.add((Select.eq("areaId", areaId)));
+		}
+		if (StringUtils.isNotBlank(boxCode)) {
+			boxQuery.add((Select.eq("boxCode", boxCode)));
+		}
+		if (null != isEnable) {
+			boxQuery.add((Select.eq("status", isEnable)));
+		}
+
+		Page<Box> boxPage = null;
+		JSONArray jarr = new JSONArray();
+		try {
+			Pageable pa = new PageRequest(pages - 1, rows);
+			boxPage = boxRepository.findAll(boxQuery, pa);
+			if (CollectionUtils.isNotEmpty(boxPage.getContent())) {
+				for (Box box : boxPage.getContent()) {
+					BoxDTO boxdto = new BoxDTO();
+					BeanUtils.copyProperties(boxdto, box);
+					boxdtoList.add(boxdto);
+				}
+
+				DecimalFormat df = new DecimalFormat("#.0");
+				List<Long> boxIdList = new ArrayList<Long>();
+				for (BoxDTO box : boxdtoList) {
+					boxIdList.add(box.getBoxId());
+					// 能装总库存容量
+					box.setSumStocks(box.getCargoRoadNumber() * 5);
+				}
+				// 现有库存总数量
+				List<Object[]> objectList = boxRepository.getStocksCommodityNumber(boxIdList);
+				// 配置商品种类
+				List<Object[]> comCount = boxRepository.getCount(boxIdList);
+				// 售空货道数量
+				List<Object[]> nullRoadList = boxRepository.getNullRoadCount(boxIdList);
+
+				// 售空商品种类
+				List<Object[]> outOfStockNameList = boxRepository.getOutOfStockName(boxIdList);
+				for (BoxDTO box : boxdtoList) {
+					// 现有库存总数量
+					if (CollectionUtils.isNotEmpty(objectList)) {
+						for (Object[] objects : objectList) {
+							Long boxId = Long.valueOf(objects[0].toString());
+							Integer existingStocks = Integer.valueOf(objects[1].toString());
+							if (boxId.equals(box.getBoxId())) {
+								box.setExistingStocks(existingStocks);
+								// 库存占百分比
+								double exe = (double) existingStocks / box.getSumStocks() * 100;
+								box.setPercentage1(exe + "%");
+							}
+						}
+
+					}
+					// 售空货道数量
+					if (CollectionUtils.isNotEmpty(nullRoadList)) {
+						for (Object[] objects : nullRoadList) {
+							Long boxId = Long.valueOf(objects[0].toString());
+							Integer nullRoadNumber = Integer.valueOf(objects[1].toString());
+							if (boxId.equals(box.getBoxId())) {
+								// 空货道数量
+								box.setNullRoadNumber(nullRoadNumber);
+								if (null != box.getCargoRoadNumber()) {
+									double dou = (double) nullRoadNumber / box.getCargoRoadNumber() * 100;
+									box.setPercentage2(dou + "%");
+									;
+								}
+							}
+						}
+					}
+					// 配置商品种类
+					List<String> comnameList = new ArrayList<String>();
+					if (CollectionUtils.isNotEmpty(comCount)) {
+
+						for (Object[] objects : comCount) {
+							Long boxId = Long.valueOf(objects[0].toString());
+							String comName = objects[1].toString();
+							if (boxId.equals(box.getBoxId())) {
+								comnameList.add(comName);
+							}
+						}
+						box.setPickingName(comnameList);
+					}
+
+					// 售空商品种类名称
+					List<Commodity> outOffName = new ArrayList<Commodity>();
+					if (CollectionUtils.isNotEmpty(outOfStockNameList)) {
+						for (Object[] objects : outOfStockNameList) {
+
+							Long boxId = Long.valueOf(objects[0].toString());
+							String outOfName = objects[1].toString();
+							Long comId = Long.valueOf(objects[2].toString());
+							if (boxId.equals(box.getBoxId())) {
+								Commodity commodity = new Commodity();
+								commodity.setCommodityId(comId);
+								commodity.setCommodityName(outOfName);
+								outOffName.add(commodity);
+								box.setOutOfStockName(outOffName);
+							}
+						}
+					}
+					double percentage3 = (double) outOffName.size() / comnameList.size() * 100;
+					box.setPercentage3(df.format(percentage3) + "%");
+					JSONObject jo = JSON.parseObject(JSONObject.toJSONString(box));
+					jarr.add(jo);
+				}
+
+			}
+
+		} catch (Exception e) {
+			return Result.setData(false, Code.getMessage(Code.CNUM001));
+		}
+
+		TianDianPage tianDianPage = new TianDianPage();
+		if (null != boxPage) {
+			tianDianPage.setContent(jarr);
+			tianDianPage.setCurrentPage(boxPage.getNumber());
+			tianDianPage.setTotal(boxPage.getTotalElements());
+			tianDianPage.setPageCount(boxPage.getTotalPages());
+		}
+
+		return Result.setData(true, tianDianPage);
+	}
+
+	/**
+	 * 
+	 * @param box_code
+	 *            设备机身号
+	 * @param area_id
+	 *            区域编号
+	 * @param cargo_road_number
+	 *            货道数量
+	 * @return
+	 */
+	// 创建售货机
+	@RequestMapping(value = "/createBox", method = RequestMethod.POST)
+	@ResponseBody
+	public Result createBox(String box_code, Long area_id, Integer cargo_road_number) {
+		log.info("创建添加新售货机开始");
+		// 参数检查
+		boolean bool = StringUtils.isBlank(box_code) || null == area_id || area_id < 0 || null == cargo_road_number
+				|| cargo_road_number < 0;
+		if (bool) {
+			return Result.setData(false, Code.getMessage(Code.CNUM003));
+		}
+		// 生成售货机二维码
+		log.info("调取创建二维码接口,创建二维码");
+		String code_img_url = "";
+		// TODO 需要生成二维码规则,及完善二维码调用接口
+		log.info("打印二维码数据:code_img_url={}", code_img_url);
+		// 生成key
+		String key = "";
+		log.info("打印生成的key值:key={}", key);
+
+		// 生成数据
+		Box box = new Box();
+		box.setAreaId(area_id);
+		box.setBoxCode(box_code);
+		box.setBoxKey(key);
+		box.setCodeImgUrl(code_img_url);
+		box.setCtime(new Date().getTime());
+		box.setStatus(IsDeleteEnum.UN_DELETE.getType());
+		box.setCargoRoadNumber(cargo_road_number);
+
+		// 添加售货机
+		Box dbReturnBox = null;
+		try {
+			dbReturnBox = boxService.addBox(box);
+		} catch (Exception e) {
+			return Result.setData(false, Code.getMessage(Code.CNUM001));
+		}
+
+		return Result.setData(true, dbReturnBox);
+
+	}
+
+
+
+	// --------------------------------------------
+	/**
+	 * 售货机库存监控库存详情
+	 */
+	@RequestMapping(value = "/getBoxStockManage")
+	@ResponseBody
+	public Result getBoxStockManage(String boxCode) {
+		// 参数验证
+		if (StringUtils.isBlank(boxCode)) {
+			return Result.setData(false, Code.getMessage(Code.CNUM003));
+		}
+		com.alibaba.fastjson.JSONArray ja = new com.alibaba.fastjson.JSONArray();
+		try {
+			// 查询售货机端口号
+			Box box = boxRepository.findBoxbyCode_name(boxCode);
+			List<BoxPort> boxPortList = box.getBoxPorts();
+			if (CollectionUtils.isNotEmpty(boxPortList)) {
+				List<Long> portIdList = new ArrayList<Long>();
+				for (BoxPort boxPort : boxPortList) {
+					portIdList.add(boxPort.getBoxPortId());
+				}
+
+				// 查询货道编号,商品id,kuncun
+				List<Object[]> roadList = boxRepository.getCodeAndcomIdAndstockNumByPortId(portIdList);
+				if (CollectionUtils.isNotEmpty(roadList)) {
+					for (Long long1 : portIdList) {
+						JSONArray js = new JSONArray();
+						for (Object[] objects : roadList) {
+							String code = null == objects[0] ? "" : objects[0].toString();
+							Long comId = null == objects[1] ? -1L : Long.valueOf(objects[1].toString());
+							Integer num = null == objects[2] ? null : Integer.valueOf(objects[2].toString());
+							Double price = null == objects[3] ? 0.00 : Double.valueOf(objects[3].toString());
+							Long portId = Long.valueOf(objects[4].toString());
+							if (long1.equals(portId)) {
+								CommodityRoad commodityRoad = new CommodityRoad();
+								commodityRoad.setCode(code);
+								Commodity commodity = commodityRepository.findOne(comId);
+								commodityRoad.setCommodity(commodity);
+								commodityRoad.setCommodityNum(num);
+
+								CommodityRoadDTO crDTO = new CommodityRoadDTO();
+								// 价格
+								crDTO.setPrice(price);
+								BeanUtils.copyProperties(crDTO, commodityRoad);
+								JSONObject jo = JSON.parseObject(JSONObject.toJSONString(crDTO));
+								jo.remove("commodity");
+								// 图片
+								ImageResource imageResource = null;
+								if (null != commodityRoad.getCommodity()) {
+									imageResource = commodityRoad.getCommodity().getImageResource();
+								}
+
+								jo.put("imageResource", JSONText.JavaBeanToJsonObject(imageResource));
+								// 商品id
+								jo.put("commodityId", comId);
+
+								js.add(jo);
+
+							}
+						}
+						for (BoxPort boxPort : boxPortList) {
+							if (long1.equals(boxPort.getBoxPortId())) {
+								BoxPortDTO bpt = new BoxPortDTO();
+								BeanUtils.copyProperties(bpt, boxPort);
+								bpt.setJsonArray(js);
+								ja.add(JSONText.JavaBeanToJsonObject(bpt));
+							}
+						}
+
+					}
+				}
+
+			}
+
+		} catch (Exception e) {
+			return Result.setData(false, Code.getMessage(Code.CNUM001));
+		}
+
+		return Result.setData(true, ja, boxCode);
+	}
+
+}

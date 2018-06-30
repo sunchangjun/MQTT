@@ -1,0 +1,172 @@
+<div id="machine" class="con_sty">
+	<div class="body_box">
+		<div class="sear_box">
+			<button class="radius btn_sty" e-click='add_mach'>新增</button>
+			<button class="radius btn_sty">导出</button>
+			<div class="con-rgt">
+				<span class="select-box inline radius">
+					<select name="" class="select"  x-field='areaId'>
+						<option value="" selected = "selected">全部区域</option>
+						<option x-repeat='area_list' value="{{areaId}}">{{areaName}}</option>
+					</select>
+				</span>
+				<span class="select-box inline radius">
+					<select name="" class="select" x-field='sta'>
+						<option value="" selected = "selected">状态</option>
+						<option value="0">维护中</option>
+						<option value="1">正常</option>
+						<option value="2">故障</option>
+					</select>
+				</span>
+				<input type="text" name="" id="" placeholder="售货机编号" class="input-text ml_10 radius sea_ipt" x-field="serialnumber">
+				<input type="button" name="" id="" class="sear_btn radius" value="" e-click="search" />
+			</div>
+		</div>
+		<div class="mt_20 tab_box">
+			<table class="">
+				<thead>
+					<tr class="text-c">
+						<th>序号</th>
+						<th>售货机编号</th>
+						<th>区域</th>
+						<th>地址</th>
+						<th>boxKey</th>
+						<th>货道数量</th>
+						<th>售货机二维码</th>
+						<th>创建时间</th>
+						<th>状态</th>
+						<th>修改时间</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				 <tbody x-if="total == 0">
+	                <tr>
+	                    <th class="com-no-data" colspan="11">暂无数据</th>
+	                </tr>
+                </tbody x-else>
+				<tbody>
+					<tr class="text-c" x-repeat='mach_list'>
+						<td>{{$index+1}}</td>
+						<td>{{boxCode}}</td>
+						<td>{{areaId}}</td>
+						<td>{{address}}</td>
+						<td>{{boxKey}}</td>
+						<td>{{cargoRoadNumber}}</td>
+						<td class="img_td" e-mouseover='see_img' e-mouseout='close_see'>预览 
+							<span class="god_sp" >
+								<img src="{{codeImgUrl}}"/>
+							</span>
+						</td>
+						<td>{{ctime}}</td>
+						<td>
+							<span x-if='status == 0'>维护中</span>
+							<span x-else>
+								<span x-if='status == 1'>正常</span>
+								<span x-else>故障</span>
+							</span>
+						</td>
+						<td>{{utime}}</td>
+						<td>
+							<div class="ope_img" e-click='edi_tc'></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="radius" id="addGoods_box" x-show='open'>
+				<div class="oper_tit">
+					{{oper_tit}}
+				</div>
+				<div class="row_sty">
+					<div class="row_left">
+						<span class="tit_left">区域:</span>
+						<span class="select-add inline radius">
+						<select name="" class="select" x-field='area_id'>
+							<option value="" selected = "selected">请选择...</option>
+							<option x-repeat='area_list' value="{{areaId}}">{{areaName}}</option>
+						</select>
+					</span>
+					</div>
+					<div class="row_rgt">
+						<span class="tit_left">状态:</span>
+						<span class="select-add inline radius">
+						<select name="" class="select" x-field='status'>
+							<option value="" selected = "selected">请选择...</option>
+							<option value="0">维护中</option>
+							<option value="1">正常</option>
+							<option value="2">故障</option>
+						</select>
+					</span>
+					</div>
+				</div>
+				<div class="row_sty">
+					<div class="row_left">
+						<span class="tit_left">售货机机身号:</span>
+							<span class="cen_box">
+							<input type="text" name="" id="" placeholder="售货机机身号" x-field='box_code' class="input-text ipt_wit radius">
+						</span>
+					</span>
+					</div>
+					<div class="row_rgt">
+						<span class="tit_left">售货机地址:</span>
+							<span class="cen_box">
+							<input type="text" name="" id="" placeholder="售货机地址" x-field='address' class="input-text ipt_wit radius">
+						</span>
+					</div>
+				</div>
+				<div class="row_sty">
+					<div class="row_left">
+						<span class="tit_left">二维码地址:</span>
+						<span class="cen_box">
+							<input type="text" name="" id="" placeholder="二维码地址" x-field='code_img_url' class="input-text ipt_wit radius">
+						</span>
+					</div>
+					<div class="row_rgt">
+						<span class="tit_left">售货机key:</span>
+						<span class="cen_box">
+						<input type="text" name="" id="" placeholder="售货机key" x-field='box_key' class="input-text ipt_wit radius">
+					</span>
+					</div>
+				</div>
+				<div class="row_sty">
+					<div class="row_left">
+						<span class="tit_left">经度:</span>
+						<span class="cen_box">
+						<input type="text" name="" id="" placeholder="经度" x-field='longitude' class="input-text ipt_wit radius">
+					</span>
+					</div>
+					<div class="row_rgt">
+						<span class="tit_left">纬度:</span>
+						<span class="cen_box">
+						<input type="text" name="" id="" placeholder="纬度" x-field='latitude' class="input-text ipt_wit radius">
+					</span>
+					</div>
+				</div>
+				<div class="row_sty">
+					<div class="row_left">
+						<span class="tit_left">货道数量:</span>
+						<span class="cen_box">
+						<input type="text" name="" id="" placeholder="货道数量" x-field='cargo_road_number' class="input-text ipt_wit radius">
+					</span>
+					</div>
+				</div>
+				<div class="row_sty">
+					<div class="addGods_btn">
+						<button class="radius btn_sty_can" e-click='close_mach'>取消</button>
+						<button class="radius btn_sty btn_sure" e-click='kep_mach'>保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="pag_box bod_top">
+		<input type="button" class="pag_btn ml_30" name="" id="" value="上一页" e-click='up_page' />
+		<span class="pag_sp ml_10">{{pages}}/{{pageCount}}</span>
+		<input type="button" class="pag_btn ml_10" name="" id="" value="下一页" e-click='down_page' />
+		<span class="sum_data">共有数据：<strong> {{total}}</strong> 条</span>
+	</div>
+	 <div class="tips_sta" x-show='tip_open'>
+		<div class="tip_icon" x-class="{'icon_suc':'icon_tip>=2','icon_den':'icon_tip<=1'}"></div>
+		{{tips_tit}}
+	</div>
+</div>

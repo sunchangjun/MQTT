@@ -1,0 +1,100 @@
+html {
+				height: 100%;
+			}
+			input{
+				outline: none;
+				border: none;
+			}
+			body {
+				margin: 0;
+				padding: 0;
+				height: 100%;
+				width: 100%;
+				background: url(../css/imgs/lock-screen-background.jpg) no-repeat;
+				background-size: 100% 100%;
+			}
+			.rest_tit{
+				height: 44px;
+				width: 100%;
+				background-color: #35baf6;
+				text-align: center;
+				line-height: 44px;
+				color: white;
+			}
+			.login_box{
+				width: 450px;
+				height: 380px;
+				background-color: white;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				position: absolute;
+				margin: auto;
+				border-radius: 10px;
+				box-shadow: 0 0 20px 5px #333333;
+			}
+			.login_meg{
+				width: 410px;
+				margin: auto;
+				overflow: hidden;
+				position: relative;
+			}
+			.login_ipt{
+				border: 1px solid #ebebeb;
+				display: block;
+				width: calc(100% - 2px);
+				background-color: #ebebeb;
+				height: 60px;
+				color: #666666;
+				border-radius: 5px;
+				font-size: 18px;
+				text-indent: 20px;
+			}
+			.user_icon{
+				position: absolute;
+			    height: 24px;
+			    right: 20px;
+			    top: 19px;
+			}
+			.mt_50{
+				margin-top: 50px;
+			}
+			.mt_20{
+				margin-top: 20px;
+			}
+			.sure_btn{
+				display: block;
+			    height: 52px;
+			    font-size: 16px !important;
+			    width: 100%;
+			    background: #2eadf5;
+			    border-radius: 2px;
+			    color: #ffffff;
+			    font-size: 20px;
+			    cursor: pointer;
+			}
+			.rest_tip{
+				color: #404040;
+				font-size: 13px;
+			}
+			.agin_login{
+				font-size: 13px;
+				text-align: end;
+			}
+			.agin_login a{
+				text-decoration: none;
+				color: #2eadf5;
+			}
+			.agin_login a:hover{
+				text-decoration: underline;
+			}
+			.rgt_icon{
+				height: 16px;
+				position: absolute;
+				top: 19px;
+				right: 22px;
+			}
+			.login_ipt:hover{
+				border: 1px solid #2eadf5;
+			}

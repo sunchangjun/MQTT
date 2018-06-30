@@ -1,0 +1,57 @@
+a = {
+	"bi_money" : 236.8,
+	"box" : {
+		"address" : "oiuoououo",
+		"areaId" : 1001,
+		"boxCode" : "DLA364",
+		"boxId" : 1,
+		"boxKey" : "00000",
+		"cargoRoadNumber" : 80,
+		"codeImgUrl" : "https://tdgou.oss-cn-qingdao.aliyuncs.com/box/1527126414.png",
+		"ctime" : 1526548042187,
+		"status" : 1,
+		"utime" : 1526548042187
+	},
+	"commodityNum" : 8,
+	"createTime" : 1527338785604,
+	"dian_bi" : 608.0,
+	"orderCommodityRoads" : [ {
+		"commodityNum" : 8,
+		"commodityRoad" : {
+			"boxId" : 1,
+			"boxPortId" : 2,
+			"code" : "11",
+			"commodityId" : 1,
+			"commodityNum" : 499,
+			"commodityRoadId" : 14,
+			"isEnable" : 1
+		},
+		"ctime" : 1527338785670,
+		"isDelete" : 1,
+		"orderCommodity" : {
+			"bi_price" : 29.6,
+			"commodity" : {
+				"bi_price" : 29.6,
+				"classification" : 1,
+				"commodityDesc" : "描述吧",
+				"commodityId" : 1,
+				"commodityName" : "天点农夫果园",
+				"content" : "500ml",
+				"dian_bi" : 76.0,
+				"enabled" : 1,
+				"price" : 40.9,
+				"specification" : "瓶"
+			},
+			"ctime" : 1527338785670,
+			"dian_bi" : 76.0,
+			"number" : 8,
+			"orderCommodityId" : 7,
+			"sale_price" : 40.9,
+			"stare" : 1
+		},
+		"orderCommodityRoadId" : 7,
+		"stare" : 1
+	} ],
+	"orderId" : 9,
+	"orderMoney" : 327.2
+}

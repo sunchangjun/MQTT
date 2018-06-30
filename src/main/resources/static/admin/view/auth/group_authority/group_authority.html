@@ -1,0 +1,132 @@
+<!-- 角色权限配置 -->
+<div class="group-authority">
+    <div class="top-title"></div>
+    <div class="content ga-con">
+        <div class="handle mt_20">
+            <div class="com-select-wrap">
+                <input type="text" class="com-input-wrap" placeholder="角色名称" x-field="left_searchName">
+            </div>
+            <button class="com-btn com-search-btn search-button fl" e-click="userSearch">搜索</button>
+            <div class="com-select-wrap select-right">
+                <input type="text" class="com-input-wrap" placeholder="权限名称" x-field="right_searchName">
+            </div>
+            <button class="com-btn com-search-btn search-button fl" e-click="authSearch">搜索</button>
+            <div class="clear"></div>
+        </div>
+        <div class="tables">
+            <!--左侧内容-->
+            <div class="fl left-table" border="0" cellspacing="0" cellpadding="0">
+                <table class="com-table table">
+                    <thead>
+                    <tr class="com-table-ths">
+                        <th>角色</th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="cont-tab">
+                    <table class="com-table table">
+                        <tbody x-if="left_total == 0">
+                        <tr>
+                            <th class="com-no-data">暂无角色</th>
+                        </tr>
+                        </tbody>
+                        <tbody x-else>
+                        <tr class="com-table-tds" x-repeat="user_list" x-class="{'com-table-tr-choose':'is_click'}">
+                            <td e-click="clickItem">{{groupName}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--已经绑定的列表-->
+            <div class="fl mid-table" border="0" cellspacing="0" cellpadding="0">
+                <table class="com-table table">
+                    <thead>
+                    <tr class="com-table-ths">
+                        <th class="menu-binds">现有权限</th>
+                        <th class="menu-operate">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="cont-tab">
+                    <table class="com-table table">
+                        <tbody x-if="bind_total == 0">
+                        <tr>
+                            <th class="com-no-data" colspan="2">暂无已绑定权限</th>
+                        </tr>
+                        </tbody>
+                        <tbody x-else>
+                        <tr class="com-table-tds" x-repeat="bind_list">
+                            <td class="menu-binds">{{authorityName}}</td>
+                            <td class="menu-operate">
+                                <button class="com-btn com-dele-btn" e-click="removeBind">解绑</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--未绑定的列表-->
+            <div class="fl right-table" border="0" cellspacing="0" cellpadding="0">
+                <table class="com-table table">
+                    <thead>
+                    <tr class="com-table-ths">
+                        <th class="menu-binds">其他权限</th>
+                        <th class="menu-operate">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="cont-tab">
+                    <table class="com-table table">
+                        <tbody x-if="right_total == 0">
+	                        <tr>
+	                            <th class="com-no-data" colspan="2">暂无未绑定权限</th>
+	                        </tr>
+                        </tbody>
+                        <tbody x-else>
+                        <tr class="com-table-tds" x-repeat="auth_list">
+                            <td class="menu-binds">{{authorityName}}</td>
+                            <td class="menu-operate">
+                                <button class="com-btn com-add-btn" x-if="!is_bind" e-click="addBind">绑定</button>
+                                <button class="com-btn" x-else>已绑定</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div>
+        <div class="el-paging-left" style="float: left;margin-left: 2%;">
+        	<div class="com-plugin-paging">
+			    <span>共<span class="red">{{left_total}}</span>条记录</span>
+			    <span>共<span class="red">{{left_all_page}}</span>页</span>
+			    <span>当前第<span class="red">{{left_page}}</span>页</span>
+			    <div class="to-prev" x-class="{'can-not':'page==1'}" e-click="left_toPrev">上一页</div>
+			    <div class="to-next" x-class="{'can-not':'page==all_page'}" e-click="left_toNext">下一页</div>
+			    <span>转到:</span>
+			    <input type="number" x-field="left_to_page">
+			    <div class="go-to" e-click="left_goTo">GO</div>
+			</div>
+        </div>
+        <div class="el-paging-right" style="text-align: right;margin-right: 2.5%">
+        	<div class="com-plugin-paging">
+			    <span>共<span class="red">{{right_total}}</span>条记录</span>
+			    <span>共<span class="red">{{right_all_page}}</span>页</span>
+			    <span>当前第<span class="red">{{right_page}}</span>页</span>
+			    <div class="to-prev" x-class="{'can-not':'page==1'}" e-click="right_toPrev">上一页</div>
+			    <div class="to-next" x-class="{'can-not':'page==all_page'}" e-click="right_toNext">下一页</div>
+			    <span>转到:</span>
+			    <input type="number" x-field="right_to_page">
+			    <div class="go-to" e-click="right_goTo">GO</div>
+			</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="tips_sta" x-show='tip_open'>
+		<div class="tip_icon" x-class="{'icon_suc':'icon_tip>=2','icon_den':'icon_tip<=1'}"></div>
+		{{tips_tit}}
+	</div>
+</div>

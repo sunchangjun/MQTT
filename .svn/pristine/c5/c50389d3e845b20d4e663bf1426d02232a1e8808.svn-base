@@ -1,0 +1,52 @@
+package framework.dao;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import framework.common.jpa.BaseRepository;
+import framework.entity.po.Box;
+import framework.entity.po.BoxPort;
+import framework.entity.po.CommodityRoad;
+
+/**
+ * 售货机
+ * @author Administrator
+ *
+ */
+
+public interface BoxRepository extends BaseRepository<Box,Long>{
+	
+	@Query("select bp from  Box bp  where bp.boxCode = ?1")
+	Box findBoxbyCode_name(String deviceName);
+	
+	//查询在售商品种类
+	@Query(value="SELECT c.box_id, count(c.commodity_id)  FROM  (SELECT DISTINCT b.box_id,r.commodity_id  FROM t_commodity_road r,t_box_new b,t_box_port p  WHERE b.box_id IN (?1) AND b.box_id=p.box_id AND p.box_port_id=r.box_port_id AND r.commodity_id>0  AND r.commodity_num>0 GROUP BY r.commodity_id,r.box_port_id) AS c GROUP BY c.box_id",nativeQuery = true)
+	List<Object[]> getBoxIdAndCommodityIdCount( List<Long> boxIdList);
+	
+	//查询售空货道数量
+	@Query(value="select  b.box_id,COUNT(r.commodity_num ) FROM t_box_new b,t_box_port p,t_commodity_road r where  b.box_id IN (?1) AND b.box_id=p.box_id and  p.box_port_id=r.box_port_id AND r.commodity_num=0 GROUP BY  b.box_id",nativeQuery=true)
+	List<Object[]> getNullRoadCount(List<Long> boxIdList);
+	
+	//查询库存商品数量
+	@Query(value="select  b.box_id,sum(r.commodity_num ) FROM  t_box_new b,t_box_port p,t_commodity_road r where b.box_id in (?1) and  b.box_id=p.box_id and  p.box_port_id=r.box_port_id GROUP BY r.box_port_id",nativeQuery=true)
+	List<Object[]> getStocksCommodityNumber(List<Long> boxIdList);
+	
+	//查询配置商品种类
+	@Query(value=" select b.box_id, c.commodity_name  from t_box_new b,t_box_port p,t_commodity_road r ,t_commodity c where b.box_id in (?1) and  b.box_id=p.box_id and  p.box_port_id=r.box_port_id AND r.commodity_id>0  AND c.commodity_id=r.commodity_id GROUP BY r.commodity_id,b.box_id ORDER BY b.box_id",nativeQuery=true)
+	List<Object[]> getCount(List<Long> boxIdList);
+	
+	//售空商品种类
+	@Query(value=" select b.box_id, c.commodity_name,c. commodity_id from t_box_new b,t_box_port p,t_commodity_road r ,t_commodity c where b.box_id in (?1) and  b.box_id=p.box_id and  p.box_port_id=r.box_port_id AND r.commodity_id>0  AND c.commodity_id=r.commodity_id GROUP BY r.commodity_id,b.box_id ORDER BY b.box_id",nativeQuery=true)
+	List<Object[]> getOutOfStockName(List<Long> boxIdList);
+	
+	@Query(value=" select  r.`code`,co.commodity_id, r.commodity_num,co.price from t_commodity_road r LEFT JOIN (select * from t_commodity c) as co on r.commodity_id=co.commodity_id where  r.box_port_id in(?1) ORDER BY `code`",nativeQuery=true)
+	List<Object[]> getCodeAndcomIdAndstockNumByPortId(List<Long> portIdList);
+
+	Box findByBoxCode(String boxCode);
+	@Query(value="select 	d.box from BoxPort d where d.devicePort=?1")
+	List<BoxPort> findByBoxCode2(String devicePort);
+
+
+}

@@ -1,0 +1,185 @@
+package framework.entity.dto;
+
+import java.util.List;
+import framework.entity.po.Commodity;
+import framework.entity.po.CommodityRes;
+import framework.entity.po.ImageResource;
+
+public class CommodityDTO extends Commodity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8766241531065900800L;
+
+	private Long commodityId;
+
+	private String commodityName;
+
+	private String commodityNo;
+
+	private Integer totalSaleNum;
+
+	private String commodityDesc;
+
+	private Short enabled;
+
+	private Long classification;
+
+	private String specification;
+
+	private String content;
+
+	private Integer stocks;
+
+	private Long createTime;
+
+	private Double price;
+
+	private Double dianBi;
+
+	private Double biPrice;
+
+	private List<CommodityRes> commodityResList;
+
+	private List<ImageResource> imageResources;
+
+	private String classificationStr;
+
+	public Long getCommodityId() {
+		return commodityId;
+	}
+
+	public void setCommodityId(Long commodityId) {
+		this.commodityId = commodityId;
+	}
+
+	public String getCommodityName() {
+		return commodityName;
+	}
+
+	public void setCommodityName(String commodityName) {
+		this.commodityName = commodityName;
+	}
+
+	public String getCommodityNo() {
+		return commodityNo;
+	}
+
+	public void setCommodityNo(String commodityNo) {
+		this.commodityNo = commodityNo;
+	}
+
+	public Integer getTotalSaleNum() {
+		return totalSaleNum;
+	}
+
+	public void setTotalSaleNum(Integer totalSaleNum) {
+		this.totalSaleNum = totalSaleNum;
+	}
+
+	public String getCommodityDesc() {
+		return commodityDesc;
+	}
+
+	public void setCommodityDesc(String commodityDesc) {
+		this.commodityDesc = commodityDesc;
+	}
+
+	public Short getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Short enabled) {
+		this.enabled = enabled;
+	}
+
+	public Long getClassification() {
+		return classification;
+	}
+
+	public void setClassification(Long classification) {
+		this.classification = classification;
+	}
+
+	public String getSpecification() {
+		return specification;
+	}
+
+	public void setSpecification(String specification) {
+		this.specification = specification;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Integer getStocks() {
+		return stocks;
+	}
+
+	public void setStocks(Integer stocks) {
+		this.stocks = stocks;
+	}
+
+	public Long getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Long createTime) {
+		this.createTime = createTime;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public Double getDianBi() {
+		return dianBi;
+	}
+
+	public void setDianBi(Double dianBi) {
+		this.dianBi = dianBi;
+	}
+
+	public Double getBiPrice() {
+		return biPrice;
+	}
+
+	public void setBiPrice(Double biPrice) {
+		this.biPrice = biPrice;
+	}
+
+	public List<CommodityRes> getCommodityResList() {
+		return commodityResList;
+	}
+
+	public void setCommodityResList(List<CommodityRes> commodityResList) {
+		this.commodityResList = commodityResList;
+	}
+
+	public List<ImageResource> getImageResources() {
+		return imageResources;
+	}
+
+	public void setImageResources(List<ImageResource> imageResources) {
+		this.imageResources = imageResources;
+	}
+
+	public String getClassificationStr() {
+		return classificationStr;
+	}
+
+	public void setClassificationStr(String classificationStr) {
+		this.classificationStr = classificationStr;
+	}
+
+}

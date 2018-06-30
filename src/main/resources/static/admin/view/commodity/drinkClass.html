@@ -1,0 +1,47 @@
+<div id="drinkclass" class="con_sty">
+	<div class="body_box">
+		<div class="sear_box">
+			<span class="select-box inline radius ml_0">
+				<select name="" class="select"  x-field='boxPortCateId' e-click='cheak_dri'>
+					<option value="" disabled="disabled" selected="selected">饮料种类</option>
+					<option x-repeat='dir_list' value="{{boxPortCateId}}">{{boxPortCateName}}</option>
+				</select>
+			</span>
+		</div>
+		<div class="mt_20 tab_box">
+			<table class="">
+				<thead>
+					<tr class="text-c">
+						<th>序号</th>
+						<th>商品名称</th>
+						<th>类型</th>
+						<th>库存</th>
+					</tr>
+				</thead>
+				<tbody x-if="total == 0">
+					<tr>
+						<td class="list_noData"colspan="4">暂无数据</th>
+					</tr>
+				</tbody>
+				<tbody x-else>
+					<tr class="text-c" x-repeat='dir_gods'>
+						<td>{{$index+1}}</td>
+						<td>{{commodity.commodityName}}</td>
+						<td>{{boxPortCate.boxPortCateName}}</td>
+						<td>{{commodity.stocks}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="pag_box bod_top">
+		<input type="button" class="pag_btn ml_30" name="" id="" value="上一页" e-click='up_page' />
+		<span class="pag_sp ml_10">{{pages}}/{{currentPage}}</span>
+		<input type="button" class="pag_btn ml_10" name="" id="" value="下一页" e-click='down_page' />
+		<span class="sum_data">共有数据：<strong> {{total}}</strong> 条</span>
+	</div>
+	<div class="tips_sta" x-show='tip_open'>
+		<div class="tip_icon" x-class="{'icon_suc':'icon_tip>=2','icon_den':'icon_tip<=1'}"></div>
+		{{tips_tit}}
+	</div>
+</div>

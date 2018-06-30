@@ -1,0 +1,72 @@
+<!-- 权限管理 -->
+<div class="authority">
+    <div class="top-title"></div>
+    <div class="content authority-con">
+        <div class="handle">
+            <input type="text" name="" id="" placeholder="名称" class="input-text radius sea_ipt" x-field="searchName">
+			<button class="com-btn com-search-btn search-button" e-click="search">搜索</button>
+			<button class="com-btn com-add-btn search-button" e-click="add">添加</button>
+			<div class="clear"></div>
+        </div>
+        <div class="authority-table-box">
+            <table class="com-table" border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                <tr class="com-table-ths">
+                    <th class="authority">权限</th>
+                    <th class="name">名称</th>
+                    <th class="operate">操作</th>
+                </tr>
+                </thead>
+                <tbody x-if="total == 0">
+                <tr>
+                    <th class="com-no-data" colspan="3">暂无权限</th>
+                </tr>
+                </tbody>
+                <tbody x-else>
+                <tr class="com-table-tds" x-if="is_add">
+                    <td class="authority"><input class="com-input-wrap insert-input" x-field="add_authority"></td>
+                    <td class="name"><input class="com-input-wrap insert-input" x-field="add_name"></td>
+                    <td class="operate">
+                        <span class="com-btn com-wait-span" e-click="confirmAdd">确定</span>
+                        <span class="com-btn com-pass-span" e-click="confirmCancel">取消</span>
+                    </td>
+                </tr>
+                <tr x-repeat="user_list" class="com-table-tds com-row-hover">
+                    <td class="authority">{{authorityName}}</td>
+                    <td class="name">{{authorityCode}}</td>
+                    <td class="operate">
+                        <button class="com-btn com-dele-btn" e-click="deleteItem">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="el-paging-authority">
+        	<div class="com-plugin-paging">
+			    <span>共<span class="red">{{total}}</span>条记录</span>
+			    <span>共<span class="red">{{all_page}}</span>页</span>
+			    <span>当前第<span class="red">{{page}}</span>页</span>
+			    <div class="to-prev" x-class="{'can-not':'page==1'}" e-click="toPrev">上一页</div>
+			    <div class="to-next" x-class="{'can-not':'page==all_page'}" e-click="toNext">下一页</div>
+			    <span>转到:</span>
+			    <input type="number" x-field="to_page">
+			    <div class="go-to" e-click="goTo">GO</div>
+			</div>
+        </div>
+    </div>
+    <div class="tips_sta" x-show='tip_open'>
+		<div class="tip_icon" x-class="{'icon_suc':'icon_tip>=2','icon_den':'icon_tip<=1'}"></div>
+		{{tips_tit}}
+	</div>
+	<div class="opt" x-show='pop'></div>
+	<div class="radius" id="classify_det" x-show='pop'>
+		<div class="cls_ipt">
+			确定删除该广告吗？
+		</div>
+		<div class="cls_btns">
+			<button class="radius btn_sty_can" e-click='close_open'>取消</button>
+			<button class="radius btn_sty" e-click='del_auth'>确定</button>
+		</div>
+	</div>
+</div>

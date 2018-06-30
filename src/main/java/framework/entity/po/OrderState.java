@@ -1,0 +1,96 @@
+package framework.entity.po;
+
+import javax.persistence.TableGenerator;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+// default package
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+/**
+ * OrderState entity. @author MyEclipse Persistence Tools
+ */
+@Entity
+@Table(name = "t_order_state")
+public class OrderState implements java.io.Serializable {
+	// Fields
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name = "order_state_id", unique = true, nullable = false)
+	private Long orderStateId;
+
+	@Column(name = "order_state_name", length = 50)
+	private String orderStateName;
+	
+	@JSONField(serialize = false)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "orderState")	
+	private Set<OrderStateRcd> orderStateRcds = new HashSet<OrderStateRcd>(0);
+	
+	@JSONField(serialize = false)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "orderState")
+	private Set<Order> orderses = new HashSet<Order>(0);
+
+	// Constructors
+	/** default constructor */
+	public OrderState() {
+	}
+
+	/** minimal constructor */
+	public OrderState(Long order_state_id) {
+		this.orderStateId = order_state_id;
+	}
+
+	/** full constructor */
+	public OrderState(Long order_state_id, String order_state_name, Set<OrderStateRcd> orderStateRcds,
+			Set<Order> orderses) {
+		this.orderStateId = order_state_id;
+		this.orderStateName = order_state_name;
+		this.orderStateRcds = orderStateRcds;
+		this.orderses = orderses;
+	}
+
+
+	public Long getOrderStateId() {
+		return orderStateId;
+	}
+
+	public void setOrderStateId(Long orderStateId) {
+		this.orderStateId = orderStateId;
+	}
+
+	public String getOrderStateName() {
+		return orderStateName;
+	}
+
+	public void setOrderStateName(String orderStateName) {
+		this.orderStateName = orderStateName;
+	}
+
+	public Set<OrderStateRcd> getOrderStateRcds() {
+		return this.orderStateRcds;
+	}
+
+	public void setOrderStateRcds(Set<OrderStateRcd> orderStateRcds) {
+		this.orderStateRcds = orderStateRcds;
+	}
+
+	public Set<Order> getOrderses() {
+		return this.orderses;
+	}
+
+	public void setOrderses(Set<Order> orderses) {
+		this.orderses = orderses;
+	}
+	
+	
+}

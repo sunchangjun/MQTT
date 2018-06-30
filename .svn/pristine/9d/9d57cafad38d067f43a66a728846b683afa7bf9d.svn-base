@@ -1,0 +1,10 @@
+package framework.core.jpa.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+
+import framework.core.jpa.model.TBox;
+
+public interface TBoxRepository extends JpaRepository<TBox, Long> {
+	TBox findByDeviceName(String name);
+}

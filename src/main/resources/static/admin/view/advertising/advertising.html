@@ -1,0 +1,136 @@
+<div id="advertising" class="con_sty">
+	<div class="body_box" id="">
+		<div class="sear_box">
+			<button class="radius btn_sty" e-click='add_adv'>新增</button>
+			<div class="con-rgt">
+				<span class="select-box inline radius">
+					<select name="" class="select"  x-field='sear_ad'>
+						<option value="" disabled="disabled" selected = "selected">区域</option>
+						<option x-repeat='select1_numes' value="{{id}}">{{name}}</option>
+					</select>
+				</span>
+				<span class="select-box inline radius">
+					<select name="" class="select" x-field='sear_type'>
+						<option value="" selected = "selected">类型</option>
+						<option value="0">全屏图</option>
+						<option value="1">横屏图</option>
+					</select>
+				</span>
+				<input type="button" name="" id="" class="sear_btn radius" value="" e-click="search" />
+			</div>
+		</div>
+		<div class="mt_20 tab_box">
+			<table class="">
+				<thead>
+					<tr class="text-c">
+						<th>序号</th>
+						<th>类型</th>
+						<th>图片</th>
+						<th>详情</th>
+						<th>排序</th>
+						<th>编辑</th>
+						<th>删除</th>
+					</tr>
+				</thead>
+				<tbody x-if="sum_data == 0">
+					<tr>
+						<td class="list_noData"colspan="7">暂无数据</th>
+					</tr>
+				</tbody>
+				<tbody x-else>
+					<tr class="text-c" x-repeat='adv_list'>
+						<td>{{advId}}</td>
+						<td>
+							<span x-if='type == 1'>横屏图</span>
+							<span x-else>全屏图</span>
+						</td>
+						<td><span class="list_img"><img src="{{imageResource.url}}"/></span></td>
+						<td>
+							<span x-if='!linkUrl'>暂无</span>
+							<a href="{{linkUrl}}" x-else class="det_a">详情</a>
+						</td>
+						<td>
+							<span class="sort_btn sort_updown" e-click='Upsort'>向上</span>
+							<span class="sort_btn sort_updown" e-click='Downsort'>向下</span>
+							<span class="sort_btn sort_top" e-click='Topsort'>置顶</span>
+						</td>
+						<td>
+							<div class="ope_img" e-click='edi_tc'></div>
+						</td>
+						<td>
+							<div class="ope_img1" e-click='del_flo'></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="opt" x-show='open'></div>
+			<div class="add_adv_box" x-show='open'>
+				<div class="tit_adv">
+					添加广告
+				</div>
+				<div class="adv_body">
+					<div class="adv_row">
+						<span class="sm_tit">类型：</span>
+						<span class="adv_sle inline radius">
+							<select name="" class="select" x-field='type'>
+								<option value="" disabled="disabled" selected = "selected">选择....</option>
+								<option value="0" selected="selected">全屏图</option>
+								<option value="1">横屏图</option>
+							</select>
+						</span>
+					</div>
+					<div class="adv_row">
+						<span class="sm_tit">区域：</span>
+						<span class="adv_sle inline radius">
+							<select name="" class="select" x-field='areaId'>
+								<option value="" disabled="disabled" selected = "selected">选择(可不选)....</option>
+								<option value="1" selected="selected">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+							</select>
+						</span>
+					</div>
+					<div class="adv_row">
+						<span class="sm_tit">图片：</span>
+						<label class="upload-img">
+							+ 上传图片
+							<input type="file" id="file_input" accept='image/*' e-change='UploadImg'/> 
+						</label>
+						<div class="img_adv" x-show='img_up'>
+							<img src='{{imageResources}}'>
+						</div>
+					</div>
+					<div class="adv_row">
+						<span class="sm_tit">跳转地址：</span>
+						<input type="text" name="" id="" placeholder="不必填" x-field='linkUrl' class="input-text adv_inp radius">
+					</div>
+					<div class="adv_row">
+						<span class="sm_tit"></span>
+						<button class="radius btn_sty_can ml_10" e-click='close_add'>关闭</button>
+						<button class="radius btn_sty btn_sure" e-click='kep_adv'>保存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="pag_box bod_top">
+		<input type="button" class="pag_btn ml_30" name="" id="" value="上一页" e-click='up_page' />
+		<span class="pag_sp ml_10">{{pages}}/{{sum_pages}}</span>
+		<input type="button" class="pag_btn ml_10" name="" id="" value="下一页" e-click='down_page' />
+		<span class="sum_data">共有数据：<strong> {{sum_data}}</strong>条</span>
+	</div>
+	<div class="tips_sta" x-show='tip_open'>
+		<div class="tip_icon" x-class="{'icon_suc':'icon_tip>=2','icon_den':'icon_tip<=1'}"></div>
+		{{tips_tit}}
+	</div>
+	<div class="opt" x-show='pop'></div>
+	<div class="radius" id="classify_det" x-show='pop'>
+		<div class="cls_ipt">
+			确定删除该广告吗？
+		</div>
+		<div class="cls_btns">
+			<button class="radius btn_sty_can" e-click='close_del'>取消</button>
+			<button class="radius btn_sty" e-click='del_adv'>确定</button>
+		</div>
+	</div>
+</div>

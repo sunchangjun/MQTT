@@ -1,0 +1,189 @@
+package framework.entity.po;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
+@Entity
+@Table(name = "t_order_commodity")
+public class OrderCommodity implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Column(name = "bi_price")
+	private Double bi_price;
+	
+	
+	@JSONField(serialize = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "box_id")
+	private Box box;
+	
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "commodity_id")
+	private Commodity commodity;
+
+	@Column(name = "commodity_id", insertable = false, updatable = false)
+	private Long commodityId;
+
+	@Column(name = "commodity_num")
+	private Integer commodityNum;
+	
+	
+
+	@Column(name = "ctime")
+	private Long ctime;
+
+	@Column(name = "dian_bi")
+	private Double dian_bi;
+
+	@Column(name = "number")
+	private Integer number;
+
+
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name = "order_commodity_id")
+	private Long orderCommodityId;
+	
+	
+	@JSONField(serialize = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_commodity_road_id")
+	private OrderCommodityRoad orderCommodityRoad;
+
+
+	// 商品价格
+	@Column(name = "sale_price")
+	private Double sale_price;
+
+	@Column(name = "stare")
+	private Short stare;
+
+	@Column(name = "utime")
+	private Long utime;
+
+	public Double getBi_price() {
+		return bi_price;
+	}
+
+	public Box getBox() {
+		return box;
+	}
+
+	public Commodity getCommodity() {
+		return commodity;
+	}
+
+	public Long getCommodityId() {
+		return commodityId;
+	}
+
+	public Integer getCommodityNum() {
+		return commodityNum;
+	}
+
+	public Long getCtime() {
+		return ctime;
+	}
+
+	public Double getDian_bi() {
+		return dian_bi;
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+
+
+	public Long getOrderCommodityId() {
+		return orderCommodityId;
+	}
+
+	public OrderCommodityRoad getOrderCommodityRoad() {
+		return orderCommodityRoad;
+	}
+
+
+	public Double getSale_price() {
+		return sale_price;
+	}
+
+	public Short getStare() {
+		return stare;
+	}
+
+	public Long getUtime() {
+		return utime;
+	}
+
+	public void setBi_price(Double bi_price) {
+		this.bi_price = bi_price;
+	}
+
+	public void setBox(Box box) {
+		this.box = box;
+	}
+
+	public void setCommodity(Commodity commodity) {
+		this.commodity = commodity;
+	}
+
+	public void setCommodityId(Long commodityId) {
+		this.commodityId = commodityId;
+	}
+
+	public void setCommodityNum(Integer commodityNum) {
+		this.commodityNum = commodityNum;
+	}
+
+	public void setCtime(Long ctime) {
+		this.ctime = ctime;
+	}
+
+	public void setDian_bi(Double dian_bi) {
+		this.dian_bi = dian_bi;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
+
+	public void setOrderCommodityId(Long orderCommodityId) {
+		this.orderCommodityId = orderCommodityId;
+	}
+
+	public void setOrderCommodityRoad(OrderCommodityRoad orderCommodityRoad) {
+		this.orderCommodityRoad = orderCommodityRoad;
+	}
+
+
+	public void setSale_price(Double sale_price) {
+		this.sale_price = sale_price;
+	}
+
+	public void setStare(Short stare) {
+		this.stare = stare;
+	}
+
+	public void setUtime(Long utime) {
+		this.utime = utime;
+	}
+
+}

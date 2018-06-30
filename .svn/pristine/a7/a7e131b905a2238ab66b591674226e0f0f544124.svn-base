@@ -1,0 +1,297 @@
+package framework.entity.po;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
+/**
+ * 售货机
+ * 
+ * @author Administrator
+ *
+ */
+@Entity
+@Table(name = "t_box_new")
+public class Box implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	// 地址
+	@Column(name = "address")
+	private String address;
+
+	// 区域id
+	@Column(name = "area_id")
+	private Long areaId;
+
+	// 售货机编码
+	@Column(name = "box_code")
+	private String boxCode;
+
+	// 售货机编号
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name = "box_id")
+	private Long boxId;
+
+	// 售货机key
+	@Column(name = "box_key")
+	private String boxKey;
+
+	@JSONField(serialize = false)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "box")
+	private List<BoxPort> boxPorts = new ArrayList<BoxPort>();
+
+	@JSONField(serialize = false)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "box")
+	private Set<CommodityRoad> commodityRoads = new HashSet<CommodityRoad>(0);
+
+	public Set<CommodityRoad> getCommodityRoads() {
+		return commodityRoads;
+	}
+
+	public void setCommodityRoads(Set<CommodityRoad> commodityRoads) {
+		this.commodityRoads = commodityRoads;
+	}
+
+	// 货道数量
+	@Column(name = "cargo_road_number")
+	private Integer cargoRoadNumber;
+
+	// 售货机二维码
+	@Column(name = "code_img_url")
+	private String codeImgUrl;
+
+	// 创建时间
+	@Column(name = "ctime")
+	private Long ctime;
+
+	// 现有库存
+	@Transient
+	public Integer existingStocks;
+
+	// 空货道数量
+	@Transient
+	private Integer nullRoadNumber;
+
+	// 缺货商品名称
+	@Transient
+	public List<Commodity> outOfStockName;
+
+	// 百分比1
+	@Transient
+	public String percentage1;
+
+	// 百分比2
+	@Transient
+	public String percentage2;
+	
+	// 百分比2
+	@Transient
+	public String percentage3;
+	
+	
+
+	// 配货商品名称
+	@Transient
+	public List<String> pickingName;
+	
+	
+
+	public String getPercentage3() {
+		return percentage3;
+	}
+
+	public void setPercentage3(String percentage3) {
+		this.percentage3 = percentage3;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Long getAreaId() {
+		return areaId;
+	}
+
+	public void setAreaId(Long areaId) {
+		this.areaId = areaId;
+	}
+
+	public String getBoxCode() {
+		return boxCode;
+	}
+
+	public void setBoxCode(String boxCode) {
+		this.boxCode = boxCode;
+	}
+
+	public Long getBoxId() {
+		return boxId;
+	}
+
+	public void setBoxId(Long boxId) {
+		this.boxId = boxId;
+	}
+
+	public String getBoxKey() {
+		return boxKey;
+	}
+
+	public void setBoxKey(String boxKey) {
+		this.boxKey = boxKey;
+	}
+
+	public List<BoxPort> getBoxPorts() {
+		return boxPorts;
+	}
+
+	public void setBoxPorts(List<BoxPort> boxPorts) {
+		this.boxPorts = boxPorts;
+	}
+
+	public Integer getCargoRoadNumber() {
+		return cargoRoadNumber;
+	}
+
+	public void setCargoRoadNumber(Integer cargoRoadNumber) {
+		this.cargoRoadNumber = cargoRoadNumber;
+	}
+
+	public String getCodeImgUrl() {
+		return codeImgUrl;
+	}
+
+	public void setCodeImgUrl(String codeImgUrl) {
+		this.codeImgUrl = codeImgUrl;
+	}
+
+	public Long getCtime() {
+		return ctime;
+	}
+
+	public void setCtime(Long ctime) {
+		this.ctime = ctime;
+	}
+
+	public Integer getExistingStocks() {
+		return existingStocks;
+	}
+
+	public void setExistingStocks(Integer existingStocks) {
+		this.existingStocks = existingStocks;
+	}
+
+	public Integer getNullRoadNumber() {
+		return nullRoadNumber;
+	}
+
+	public void setNullRoadNumber(Integer nullRoadNumber) {
+		this.nullRoadNumber = nullRoadNumber;
+	}
+
+
+
+	public List<Commodity> getOutOfStockName() {
+		return outOfStockName;
+	}
+
+	public void setOutOfStockName(List<Commodity> outOfStockName) {
+		this.outOfStockName = outOfStockName;
+	}
+
+	public String getPercentage1() {
+		return percentage1;
+	}
+
+	public void setPercentage1(String percentage1) {
+		this.percentage1 = percentage1;
+	}
+
+	public String getPercentage2() {
+		return percentage2;
+	}
+
+	public void setPercentage2(String percentage2) {
+		this.percentage2 = percentage2;
+	}
+
+	public List<String> getPickingName() {
+		return pickingName;
+	}
+
+	public void setPickingName(List<String> pickingName) {
+		this.pickingName = pickingName;
+	}
+
+	public Short getStatus() {
+		return status;
+	}
+
+	public void setStatus(Short status) {
+		this.status = status;
+	}
+
+	public Integer getSumStocks() {
+		return sumStocks;
+	}
+
+	public void setSumStocks(Integer sumStocks) {
+		this.sumStocks = sumStocks;
+	}
+
+	public Integer getTypeOfSale() {
+		return typeOfSale;
+	}
+
+	public void setTypeOfSale(Integer typeOfSale) {
+		this.typeOfSale = typeOfSale;
+	}
+
+	public Long getUtime() {
+		return utime;
+	}
+
+	public void setUtime(Long utime) {
+		this.utime = utime;
+	}
+
+	// 是否启用(-1:维护中,未启用1:正常2:故障中,等待维护)
+	@Column(name = "status")
+	private Short status;
+
+	// 库存商品总数
+	@Transient
+	public Integer sumStocks;
+
+	// 在售商品种类
+	@Transient
+	private Integer typeOfSale;
+
+	// 修改时间
+	@Column(name = "utime")
+	private Long utime;
+
+}

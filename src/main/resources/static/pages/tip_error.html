@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" name="viewport"
+			content="width=device-width,initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+		<title>系统错误</title>
+		<link type="text/css" rel="stylesheet" href="css/tip.css"/>
+		<script>
+		window.onload = function() {
+			var search = location.search;
+			if(search && search.length > 0) {
+				search = search.substr(1);
+				var ss = search.split("&");
+				var errMsg = '';
+				for(var i in ss) {
+					if(ss[i].indexOf("errMsg=") == 0) {
+						errMsg = ss[i].substr(7);
+					}
+				}
+				if(!errMsg)
+					errMsg = '系统错误';
+				document.getElementById('tip_title').innerHTML = errMsg;
+			}
+		}
+		</script>
+	</head>
+	<body>
+		<div class="page_error">
+			<img class="tip_img" src="img/tip_error.png" />
+			<div id="tip_title" class="tip_title"></div>
+		</div>
+	</body>
+</html>

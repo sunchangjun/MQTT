@@ -1,0 +1,32 @@
+package framework.mqtt.handler;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import framework.dao.OrderRepository;
+import framework.mqtt.util.IMqttHandler;
+import framework.pojo.Request;
+/** 
+ * 货道出货反馈通知
+ * @author Administrator
+ *
+ */
+@Component()
+public class commodityRoadFeedbackHandler implements IMqttHandler {
+	@Autowired
+	OrderRepository orderRepository;
+
+	@Override
+	public void exec(Request bean) {
+		// TODO 需要通知结构和类容
+		//解析通知内容
+		
+		if(false) {//成功,订单改状态
+			
+		}else {//不成功订单改状态为退款,并向支付服务器发送退款请求
+			//更改订单状态
+			//还库存
+			//通知退款
+		}
+	}
+}

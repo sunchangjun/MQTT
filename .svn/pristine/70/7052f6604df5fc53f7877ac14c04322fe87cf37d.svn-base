@@ -1,0 +1,16 @@
+package framework.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import framework.common.result.Result;
+import framework.entity.po.Adv;
+
+@RestController
+public class AdvController {
+	
+	public Result  addOrUpdateAdv(Adv adv) {
+		
+		return  Result.setData(true, null);
+	}
+
+}

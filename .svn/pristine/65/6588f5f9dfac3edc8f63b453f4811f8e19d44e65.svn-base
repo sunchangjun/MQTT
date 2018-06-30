@@ -1,0 +1,9 @@
+package framework.service;
+
+import framework.entity.po.ImageResource;
+
+public interface ImageResourceService {
+	
+	ImageResource addImageResource(String  picUrl) ;
+
+}

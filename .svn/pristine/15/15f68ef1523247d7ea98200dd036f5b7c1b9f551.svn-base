@@ -1,0 +1,13 @@
+package framework.service;
+
+import java.util.List;
+
+import framework.entity.po.CommodityRoad;
+
+public interface CommodityRoadService {
+	
+	CommodityRoad saveCommodityRoad(CommodityRoad commodityRoad);
+	
+	boolean saveCommodityRoadList(List<CommodityRoad> commodityRoadList );
+
+}

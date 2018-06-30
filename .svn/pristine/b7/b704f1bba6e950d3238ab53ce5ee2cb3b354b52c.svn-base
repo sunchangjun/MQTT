@@ -1,0 +1,42 @@
+package framework.service.Impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import framework.common.CollectionUtils;
+import framework.dao.CommodityRoadRepository;
+import framework.entity.po.CommodityRoad;
+import framework.service.CommodityRoadService;
+
+@Service
+public class CommodityRoadServiceImpl implements CommodityRoadService {
+
+	@Autowired
+	private CommodityRoadRepository commodityRoadRepository;
+
+	@Override
+	public CommodityRoad saveCommodityRoad(CommodityRoad commodityRoad) {
+
+		CommodityRoad returnCommodityRoad = null;
+
+		returnCommodityRoad = commodityRoadRepository.save(commodityRoad);
+		return returnCommodityRoad;
+	}
+	
+	/**
+	 * 保存列表
+	 * @param commodityRoadList
+	 * @return
+	 */
+	public boolean saveCommodityRoadList(List<CommodityRoad> commodityRoadList ){
+		List<CommodityRoad>  dbCommodityRoadList=	commodityRoadRepository.save(commodityRoadList);
+		if(CollectionUtils.isNotEmpty(dbCommodityRoadList)){
+			return true;
+		}
+		return false;
+	}
+	
+
+}

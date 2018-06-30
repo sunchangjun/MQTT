@@ -1,0 +1,247 @@
+package framework.controller;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import framework.common.CollectionUtils;
+import framework.common.jpa.Query;
+import framework.common.jpa.Select;
+import framework.common.result.Code;
+import framework.common.result.Message;
+import framework.common.result.Result;
+import framework.dao.BoxPortRepository;
+import framework.dao.BoxRepository;
+import framework.dao.CommodityRepository;
+import framework.dao.CommodityRoadRepository;
+import framework.dao.ImageResourceRepository;
+import framework.entity.po.Box;
+import framework.entity.po.BoxPort;
+import framework.entity.po.Commodity;
+import framework.entity.po.CommodityRoad;
+import framework.entity.po.ImageResource;
+import framework.entity.po.Recycle;
+import framework.enums.Success;
+import framework.service.CommodityRoadService;
+import framework.service.RecycleService;
+
+/**
+ * 货道管理
+ * 
+ * @author sunchangjunn
+ *
+ */
+@Controller
+public class CommodityRoadController {
+
+	private static Logger log = LoggerFactory.getLogger(CommodityRoadController.class);
+
+	@Autowired
+	private BoxPortRepository boxPortRepository;
+
+	@Autowired
+	private CommodityRoadService commodityRoadService;
+
+	@Autowired
+	private CommodityRoadRepository commodityRoadRepository;
+
+	@Autowired
+	private RecycleService recycleService;
+
+	@Autowired
+	private CommodityRepository commodityRepository;
+
+	@Autowired
+	private ImageResourceRepository imageResourceRepository;
+	@Autowired
+	BoxRepository boxRepository;
+	
+	
+	
+
+	/**
+	 * 添加货道及商品
+	 * 
+	 * @param box_id
+	 *            售货机id
+	 * @param commodity_id
+	 *            商品id
+	 * @param code
+	 *            货道编号
+	 * @param commodity_num
+	 *            商品数量
+	 * @return
+	 */
+	@RequestMapping(value = "/addCommodityRoad", method = RequestMethod.POST)
+	@ResponseBody
+	public Result addCommodityRoad(Long box_id, Long commodity_id, String code, Integer commodity_num) {
+		return null;
+
+		// 参数检查
+//		if (StringUtils.isBlank(code) || null == box_id || null == commodity_id) {
+//			Message message=new Message();
+//			message.setErrno(Code.GWSCOD0003);
+//			message.setErrmsg(Code.GWSMSG0003);
+//			return Result.setData(Success.FALSE.getDescription(), message);
+//		}
+//		// 根据售货机编号查询售货机串口编号
+//		BoxPort boxPort = boxPortRepository.findBoxPortByBoxId(box_id);
+//		if (null == boxPort) {
+//			Message message=new Message();
+//			message.setErrno(Code.GWSCOD0003);
+//			message.setErrmsg(Code.GWSMSG0003);
+//			return Result.setData(Success.FALSE.getDescription(), message);
+//		}
+//
+//		// 生成货道数据
+//		CommodityRoad commodityRoad = new CommodityRoad();
+////		commodityRoad.setBoxPortId(boxPort.getBoxPortId());
+//		commodityRoad.setCode(code);
+////		commodityRoad.setCommodityId(commodity_id);
+//		commodityRoad.setCommodityNum(commodity_num);
+//		// 保存数据
+//		CommodityRoad returnCommodityRoad = null;
+//		try {
+//			returnCommodityRoad = commodityRoadService.saveCommodityRoad(commodityRoad);
+//		} catch (Exception e) {
+//			Message message=new Message();
+//			message.setErrno(Code.GWSCOD0001);
+//			message.setErrmsg(Code.GWSMSG0001);
+//			return Result.setData(Success.FALSE.getDescription(), message);
+//		}
+//		return Result.setData(Success.TRUE.getDescription(), returnCommodityRoad);
+	}
+
+	/**
+	 * 修改货道商品
+	 * 
+	 * @param commodity_road_id
+	 *            货道编号
+	 * @param commodity_id
+	 *            商品id
+	 * @param commodity_num
+	 *            商品数量
+	 * @return
+	 */
+	@RequestMapping(value = "/updateCommodityRoad", method = RequestMethod.POST)
+	@ResponseBody
+	public Result updateCommodityRoad(Long commodity_road_id, Long commodity_id, Integer commodity_num) {
+		// 参数检查
+		if (null == commodity_road_id || null == commodity_id || null == commodity_num) {
+			Message message=new Message();
+			message.setErrno(Code.GWSCOD0003);
+			message.setErrmsg(Code.GWSMSG0003);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}
+		CommodityRoad dbCommodityRoad = commodityRoadRepository.findOne(commodity_road_id);
+		CommodityRoad returnCommodityRoad = null;
+		// 货单存在,1增加商品2换商品
+		if (null != dbCommodityRoad) {
+
+////			if (commodity_id.equals(dbCommodityRoad.getCommodityId())) { // 增加商品
+//				dbCommodityRoad.setCommodityNum(dbCommodityRoad.getCommodityNum() + commodity_num);
+//				returnCommodityRoad = commodityRoadService.saveCommodityRoad(dbCommodityRoad);
+//			} else {// 换商品
+//					// 并且将换下的商品保存到资源回收表
+//				Recycle recycle = new Recycle();
+////				recycle.setCommodityId(dbCommodityRoad.getCommodityId());
+//				recycle.setNum(dbCommodityRoad.getCommodityNum());
+//				recycleService.addRecycle(recycle);
+//				// 替换新商品
+////				dbCommodityRoad.setCommodityId(commodity_id);
+//				dbCommodityRoad.setCommodityNum(commodity_num);
+//				returnCommodityRoad = commodityRoadService.saveCommodityRoad(dbCommodityRoad);
+//			}
+
+		}
+
+		return Result.setData(Success.TRUE.getDescription(), returnCommodityRoad);
+	}
+	
+
+
+//	/**
+//	 * 通过售货机编号,分页查找售货机详情(商品库存列表)
+//	 * 
+//	 * @param box_id
+//	 * @param page
+//	 * @param rows
+//	 * @return
+//	 */
+//	@RequestMapping(value = "/findPageCommodityRoad", method = RequestMethod.POST)
+//	@ResponseBody
+//	public Result findPageCommodityRoad(Long box_id, Integer page, Integer rows) {
+//		// 参数判断
+//		if (null == box_id || null == page || null == rows) {
+//			Message message=new Message();
+//			message.setErrno(Code.GWSCOD0003);
+//			message.setErrmsg(Code.GWSMSG0003);
+//			return Result.setData(Success.FALSE.getDescription(), message);
+//		}
+//		Page<Commodity> pages = null;
+//		List<Commodity> CommodityList = new ArrayList<Commodity>();
+//		// 查询
+//		try {
+//			BoxPort boxPort = boxPortRepository.findBoxPortByBoxId(box_id);
+//			if (null != boxPort) {
+//
+//				Query<CommodityRoad> query = new Query<CommodityRoad>();
+//				List<CommodityRoad> list = commodityRoadRepository
+//						.findAll(query.add(Select.eq("box_port_id", boxPort.getBoxPortId())));
+//				if (CollectionUtils.isNotEmpty(list)) {
+//					List<Long> commodityIdList = new ArrayList<Long>();
+//					for (CommodityRoad commodityRoad : list) {
+//						commodityIdList.add(commodityRoad.getCommodityId());
+//					}
+//
+//					Iterable<Commodity> commodityIterable = commodityRepository.findAll(commodityIdList);
+//					if (null != commodityIterable) {
+//						Iterable<ImageResource> imageResourceIterable = imageResourceRepository
+//								.findAll(commodityIdList);
+//
+//						for (Commodity commodity : commodityIterable) {
+//							List<ImageResource> ImageResourceList = new ArrayList<ImageResource>();
+//							for (ImageResource imageResource : imageResourceIterable) {
+//								if (commodity.getCommodityId().equals(imageResource.getCommodityId())) {
+//									ImageResourceList.add(imageResource);
+//								}
+//							}
+//							commodity.setImageResources(ImageResourceList);
+//							CommodityList.add(commodity);
+//						}
+//					}
+//
+//				}
+//
+//			}
+//			Pageable pageable = new PageRequest(page - 1, rows);
+//			pages = new PageImpl<Commodity>(CommodityList, pageable, CommodityList.size());
+//		} catch (Exception e) {
+//			Message message=new Message();
+//			message.setErrno(Code.GWSCOD0001);
+//			message.setErrmsg(Code.GWSMSG0001);
+//			return Result.setData(Success.FALSE.getDescription(), message);
+//		}
+//
+//		return Result.setData(Success.TRUE.getDescription(), pages);
+//
+//	}
+
+//public Result getCommodityStocks() {
+//	
+//	return Result.setData(success, object);
+//}
+
+}

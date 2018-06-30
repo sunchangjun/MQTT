@@ -1,0 +1,223 @@
+package framework.entity.po;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
+/**
+ * 商品表
+ * @author Administrator
+ *
+ */
+@Entity
+@Table(name = "t_commodity")
+public class Commodity implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8515573585390951519L;
+
+	//商品编号
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name="commodity_id")
+	private Long commodityId;
+	
+	//商品名称
+	@Column(name="commodity_name")
+	private String commodityName;
+	
+	//商品货号
+	@Column(name="commodity_no")
+	private String commodityNo;
+	
+	//累计销售量
+	@Column(name="total_sale_num")
+	private Integer totalSaleNum;
+	
+	
+	@JSONField(serialize = false)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "commodity")
+	private List<CommodityRoad> commodityRoadList;
+	
+	
+	
+	//商品描述
+	@Column(name="commodity_desc")
+	private String commodityDesc;
+	
+	
+	
+	//是否有效
+	@Column(name="enabled")
+	private Short enabled;
+	
+	@JSONField(serialize = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "commodity_cate_id")
+	private  CommodityCate commodityCate;
+	
+	//规格
+	@Column(name="specification")
+	private String specification;
+	
+	//净含量
+	@Column(name="content")
+	private String content;
+	
+	//库存
+	@Column(name="stocks")
+	private  Integer  stocks;
+	
+	//创建时间
+	@Column(name="create_time")
+	private Long createTime;
+	
+	//商品价格
+	@Column(name="price")
+	private Double price;
+	
+	@Column(name="dian_bi")
+	private Double dianBi;
+	
+	@Column(name="bi_price")
+	private Double biPrice;
+	
+	
+	@JSONField(serialize = false)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "commodity")
+	private  List<CommodityRes> commodityResList;
+	
+	
+
+	public Double getDianBi() {
+		return dianBi;
+	}
+
+	public void setDianBi(Double dianBi) {
+		this.dianBi = dianBi;
+	}
+
+	public Double getBiPrice() {
+		return biPrice;
+	}
+
+	public void setBiPrice(Double biPrice) {
+		this.biPrice = biPrice;
+	}
+
+
+
+	public Long getCommodityId() {
+		return commodityId;
+	}
+
+	public void setCommodityId(Long commodityId) {
+		this.commodityId = commodityId;
+	}
+
+	public String getCommodityName() {
+		return commodityName;
+	}
+
+	public void setCommodityName(String commodityName) {
+		this.commodityName = commodityName;
+	}
+
+	public String getCommodityNo() {
+		return commodityNo;
+	}
+
+	public void setCommodityNo(String commodityNo) {
+		this.commodityNo = commodityNo;
+	}
+
+	public Integer getTotalSaleNum() {
+		return totalSaleNum;
+	}
+
+	public void setTotalSaleNum(Integer totalSaleNum) {
+		this.totalSaleNum = totalSaleNum;
+	}
+
+	public String getCommodityDesc() {
+		return commodityDesc;
+	}
+
+	public void setCommodityDesc(String commodityDesc) {
+		this.commodityDesc = commodityDesc;
+	}
+
+
+
+	public Short getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Short enabled) {
+		this.enabled = enabled;
+	}
+
+
+
+
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Integer getStocks() {
+		return stocks;
+	}
+
+	public void setStocks(Integer stocks) {
+		this.stocks = stocks;
+	}
+
+	public Long getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Long createTime) {
+		this.createTime = createTime;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public List<CommodityRes> getCommodityResList() {
+		return commodityResList;
+	}
+
+	public void setCommodityResList(List<CommodityRes> commodityResList) {
+		this.commodityResList = commodityResList;
+	}
+
+	
+	
+	
+}

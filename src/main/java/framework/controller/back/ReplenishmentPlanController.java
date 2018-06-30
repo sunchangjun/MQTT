@@ -1,0 +1,139 @@
+package framework.controller.back;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import framework.common.CollectionUtils;
+import framework.common.JSONExt;
+import framework.common.JSONText;
+import framework.common.TianDianPage;
+import framework.common.jpa.Query;
+import framework.common.jpa.Select;
+import framework.common.result.Code;
+import framework.common.result.Message;
+import framework.common.result.Result;
+import framework.dao.BoxPortRepository;
+import framework.dao.BoxRepository;
+import framework.dao.ReplenishmentPlanRepository;
+import framework.entity.po.Box;
+import framework.entity.po.BoxPort;
+import framework.entity.po.ReplenishmentPlan;
+import framework.enums.IsDeleteEnum;
+
+
+@RestController
+@RequestMapping("/back/replenishmentPlan")
+public class ReplenishmentPlanController {
+	@Autowired
+	BoxPortRepository boxPortRepository;
+
+	@Autowired
+	BoxRepository boxRepository;
+
+	@Autowired
+	ReplenishmentPlanRepository replenishmentPlanRepository;
+
+	@RequestMapping(value = "/getAllReplenishmentPlan")
+	public Result getAllReplenishmentPlan(String boxCode, Integer isEnable, Integer pages, Integer rows) {
+
+		// 参数验证
+		if (null == pages || null == rows) {
+			return Result.setData(false, Code.getMessage(Code.CNUM003));
+		}
+		Page<ReplenishmentPlan> page = null;
+		JSONArray js = new JSONArray();
+		try {
+			// 查询条件
+			Box box = boxRepository.findBoxbyCode_name(boxCode);
+			if (null != box) {
+				List<BoxPort> boxPortList = box.getBoxPorts();
+				Query<ReplenishmentPlan> query = new Query<ReplenishmentPlan>();
+			
+				if (CollectionUtils.isNotEmpty(boxPortList) ) {
+					query.add(Select.in("boxPort", boxPortList, true));
+				}
+				if (null != isEnable) {
+					query.add(Select.eq("isEnable", isEnable));
+				}
+				// 查询
+				Pageable pageable = new PageRequest(pages - 1, rows);
+				page = replenishmentPlanRepository.findAll(query, pageable);
+				if (CollectionUtils.isNotEmpty(page.getContent())) {
+					for (ReplenishmentPlan replenishmentPlan : page) {
+						JSONObject jo = JSONExt.toJSON(replenishmentPlan);
+						js.add(jo);
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			return Result.setData(false, Code.getMessage(Code.CNUM001));
+		}
+		TianDianPage tp = new TianDianPage();
+		tp.setContent(js);
+		if(null !=page ) {
+			tp.setCurrentPage(page.getNumber());
+			tp.setPageCount(page.getTotalPages());
+			tp.setTotal(page.getTotalElements());
+		}
+
+
+		return Result.setData(true, tp);
+	}
+
+	/**
+	 * 查询单个补货计划
+	 * 
+	 * @param replenishmentPlanId
+	 * @return
+	 */
+	@RequestMapping(value = "/getOneReplenishmentPlan")
+	public Result getOneReplenishmentPlan(Long replenishmentPlanId) {
+		// 参数验证
+		if (null == replenishmentPlanId) {
+			return Result.setData(false, Code.getMessage(Code.CNUM003));
+		}
+		// 查询
+		JSONObject jo = null;
+		try {
+			ReplenishmentPlan dbReplenishmentPlan = replenishmentPlanRepository.findOne(replenishmentPlanId);
+			jo = JSONExt.toJSON(dbReplenishmentPlan);
+		} catch (Exception e) {
+			return Result.setData(false, Code.getMessage(Code.CNUM001));
+		}
+		return Result.setData(true, jo);
+	}
+	
+	@PostMapping("/deleteReplenishmentPlan")
+	public Result deleteReplenishmentPlan(Long replenishmentPlanId) {
+		if(null ==  replenishmentPlanId) {
+			return Result.setData(false, Code.getMessage(Code.CNUM003));
+		}
+		//查询
+		com.alibaba.fastjson.JSONObject js=null;
+		try {
+			ReplenishmentPlan dbReplenishmentPlan=replenishmentPlanRepository.findOne(replenishmentPlanId);
+			if(null != dbReplenishmentPlan) {
+				dbReplenishmentPlan.setIsEnable(IsDeleteEnum.DELETE.getType());
+				ReplenishmentPlan dbReturnReplenishmentPlan= replenishmentPlanRepository.save(dbReplenishmentPlan);
+				if(null != dbReturnReplenishmentPlan) {
+					js =JSONText.JavaBeanToJsonObject(dbReturnReplenishmentPlan);
+				}
+			}
+		} catch (Exception e) {
+			return Result.setData(false, Code.getMessage(Code.CNUM001));
+		}
+		
+		return Result.setData(true, js);
+	}
+	
+	
+
+}

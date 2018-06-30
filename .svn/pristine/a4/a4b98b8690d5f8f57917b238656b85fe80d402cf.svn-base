@@ -1,0 +1,20 @@
+package framework.service.Impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import framework.dao.AreaRepository;
+import framework.entity.po.Area;
+import framework.service.AreaService;
+@Service
+public class AreaServiceImpl implements AreaService{
+	
+	@Autowired
+	AreaRepository areaRepository;
+	
+	public  Area saveArea(Area area){
+		return  areaRepository.save(area);
+		
+	}
+
+}

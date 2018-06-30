@@ -1,0 +1,29 @@
+package Test.Dao;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.alibaba.fastjson.JSONObject;
+
+import Test.Base.BaseJunitTest;
+import framework.dao.BoxRepository;
+
+public class testBoxRepository extends BaseJunitTest {
+	
+	@Autowired
+	BoxRepository boxRepository;
+	@Test
+	public void test() {
+		List<Long> list=new  ArrayList<Long>();
+		list.add(1L);
+		list.add(2L);
+		
+		
+		System.out.println(JSONObject.toJSONString(boxRepository.getBoxIdAndCommodityIdCount(list)));
+	}
+
+}

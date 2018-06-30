@@ -1,0 +1,121 @@
+<div id="sell" class="con_sty">
+	<div class="body_box">
+		<div class="sear_box">
+			<button class="radius btn_sty">导出</button>
+			<div class="con-rgt">
+				<span class="select-box inline radius">
+					<select name="" class="select" >
+						<option value="">售货机状态</option>
+					</select>
+				</span>
+				<span class="select-box inline radius">
+					<select name="" class="select">
+						<option value="">网络状态</option>
+					</select>
+				</span>
+				<span class="select-box inline radius">
+					<select name="" class="select">
+						<option value="">硬件状态</option>
+					</select>
+				</span>
+				<input type="text" name="" id="" placeholder="售货机编码" style="width:150px" class="input-text ml_10 radius">
+				<input type="text" name="" id="" placeholder="点位名称" style="width:150px" class="input-text radius">
+				<input type="button" name="" id="" class="sear_btn radius" value="" />
+			</div>
+		</div>
+		<div class="mt_20 tab_box">
+			<table class="">
+				<thead>
+					<tr class="text-c">
+						<th>序号</th>
+						<th>售货机编号</th>
+						<th>区域</th>
+						<th>线路</th>
+						<th>所在点位</th>
+						<th>货道状态</th>
+						<th>硬件状态</th>
+						<th>售货机状态</th>
+						<th>终端设备号</th>
+						<th>上线时间</th>
+						<th>离线时间</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-c" x-repeat='goods_list'>
+						<td>{{id}}</td>
+						<td>{{coding}}</td>
+						<td>{{region}}</td>
+						<td>{{line}}</td>
+						<td>{{site}}</td>
+						<td>{{god}}</td>
+						<td>{{hard}}</td>
+						<td></td>
+						<td>{{device}}</td>
+						<td>{{sta_time}}</td>
+						<td>{{end_time}}</td>
+						<td><div class="ope_img" e-click='see_det'></div>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="see_box" x-show='open'>
+			<div class="god_box pad_sty bod_btm">
+				售货机编号：
+				<input type="text" name="" id="" value="DLA364" class="input-text ml_10 radius sea_ipt" readonly="readonly"> 点位名称：
+				<input type="text" name="" id="" value="DLA364" class="input-text radius sea_ipt" readonly="readonly">
+				<button class="radius btn_sty" e-click='pop_open'>重启应用</button>
+				<button class="radius btn_sty" e-click='pop_open'>重启系统</button>
+				<button class="radius btn_sty btn_cor" e-click='pop_open'>关闭电源</button>
+				<button class="radius btn_sty">上传日志</button>
+			</div>
+			<div class="mt_20 com_hgt1 bod_btm">
+				<div class="com_box">
+					<div class="sml_box">
+						<span class="seq_num">
+							<strong>1-1</strong>
+						</span>
+						<span class="goods_img" e-click='cheak_sta'></span>
+						<div class="bind_btn">
+							<button class="radius rep_btn outGod_btn" e-click='pop_open'>出货</button>
+						</div>
+						<div class="hide_sle" x-show='selected'>
+							<select class="sta_sle">
+								<option>启用</option>
+								<option>禁止</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="fot_btn">
+				<div class="addGods_btn mt_10">
+					<button class="radius btn_sty_can" e-click='close_det'>关闭</button>
+					<button class="radius btn_sty">保存</button>
+				</div>
+			</div>
+			<div class="opt" x-show='pop'></div>
+			<div class="radius" id="classify_det" x-show='pop'>
+				<div class="cls_ipt">
+					确定该项操作吗？
+				</div>
+				<div class="cls_btns">
+					<button class="radius btn_sty_can" e-click='cancle'>取消</button>
+					<button class="radius btn_sty" e-click='sure'>确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="pag_box bod_top">
+		<input type="button" class="pag_btn ml_30" name="" id="" value="上一页" e-click='up_page' />
+		<span class="pag_sp ml_10">{{pages}}/{{sum_pages}}</span>
+		<input type="button" class="pag_btn ml_10" name="" id="" value="下一页" e-click='down_page' />
+		<span class="sum_data">共有数据：<strong> 50</strong> 条</span>
+	</div>
+	<div class="tips_sta" x-show='tip_open'>
+		没有更多了
+	</div>
+	<div class="tips_sta" x-show='tip_pop'>
+		远程操作成功
+	</div>
+</div>

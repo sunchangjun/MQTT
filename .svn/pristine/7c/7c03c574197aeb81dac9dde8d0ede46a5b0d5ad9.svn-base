@@ -1,0 +1,200 @@
+package framework.entity.po;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import com.alibaba.fastjson.annotation.JSONField;
+
+/**
+ * 售货机
+ * 
+ * @author Administrator
+ *
+ */
+@Entity
+@Table(name = "t_box_new")
+public class Box implements  Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	@JSONField(serialize = false)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "box")
+	private List<Order> orderList;
+
+	// 地址
+	@Column(name = "address")
+	private String address;
+
+	// 区域id
+	@Column(name = "area_id")
+	private Long areaId;
+
+	// 售货机编码
+	@Column(name = "box_code")
+	private String boxCode;
+
+	// 售货机编号
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@Column(name = "box_id")
+	private Long boxId;
+
+	// 售货机key
+	@Column(name = "box_key")
+	private String boxKey;
+
+	@JSONField(serialize = false)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "box")
+	private List<BoxPort> boxPorts = new ArrayList<BoxPort>();
+
+	//@JSONField(serialize = false)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "box")
+	private List<CommodityRoad> commodityRoads = new ArrayList<CommodityRoad>(0);
+
+	public List<CommodityRoad> getCommodityRoads() {
+		return commodityRoads;
+	}
+
+	public void setCommodityRoads(List<CommodityRoad> commodityRoads) {
+		this.commodityRoads = commodityRoads;
+	}
+
+	// 货道数量
+	@Column(name = "cargo_road_number")
+	private Integer cargoRoadNumber;
+
+	// 售货机二维码
+	@Column(name = "code_img_url")
+	private String codeImgUrl;
+
+	// 创建时间
+	@Column(name = "ctime")
+	private Long ctime;
+	
+
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Long getAreaId() {
+		return areaId;
+	}
+
+	public void setAreaId(Long areaId) {
+		this.areaId = areaId;
+	}
+
+	public String getBoxCode() {
+		return boxCode;
+	}
+
+	public void setBoxCode(String boxCode) {
+		this.boxCode = boxCode;
+	}
+
+	public Long getBoxId() {
+		return boxId;
+	}
+
+	public void setBoxId(Long boxId) {
+		this.boxId = boxId;
+	}
+
+	public String getBoxKey() {
+		return boxKey;
+	}
+
+	public void setBoxKey(String boxKey) {
+		this.boxKey = boxKey;
+	}
+
+	public List<BoxPort> getBoxPorts() {
+		return boxPorts;
+	}
+
+	public void setBoxPorts(List<BoxPort> boxPorts) {
+		this.boxPorts = boxPorts;
+	}
+
+	public Integer getCargoRoadNumber() {
+		return cargoRoadNumber;
+	}
+
+	public void setCargoRoadNumber(Integer cargoRoadNumber) {
+		this.cargoRoadNumber = cargoRoadNumber;
+	}
+
+	public String getCodeImgUrl() {
+		return codeImgUrl;
+	}
+
+	public void setCodeImgUrl(String codeImgUrl) {
+		this.codeImgUrl = codeImgUrl;
+	}
+
+	public Long getCtime() {
+		return ctime;
+	}
+
+	public void setCtime(Long ctime) {
+		this.ctime = ctime;
+	}
+
+
+
+	public Short getStatus() {
+		return status;
+	}
+
+	public void setStatus(Short status) {
+		this.status = status;
+	}
+
+
+
+	public Long getUtime() {
+		return utime;
+	}
+
+	public void setUtime(Long utime) {
+		this.utime = utime;
+	}
+	
+	
+
+	public List<Order> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(List<Order> orderList) {
+		this.orderList = orderList;
+	}
+
+	// 是否启用(-1:维护中,未启用1:正常2:故障中,等待维护)
+	@Column(name = "status")
+	private Short status;
+
+
+
+	// 修改时间
+	@Column(name = "utime")
+	private Long utime;
+
+}

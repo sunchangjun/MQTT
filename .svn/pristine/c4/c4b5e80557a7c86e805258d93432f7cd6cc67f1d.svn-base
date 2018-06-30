@@ -1,0 +1,25 @@
+package framework.common.jpa.query;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
+
+public abstract class BaseQuery {
+	//排序对象
+	private Sort sort;
+	private Pageable Page;
+	public Sort getSort() {
+		return sort;
+	}
+	public void setSort(Sort sort) {
+		this.sort = sort;
+	}
+	public Pageable getPage() {
+		return Page;
+	}
+	public void setPage(Pageable page) {
+		Page = page;
+	}
+	
+}
+

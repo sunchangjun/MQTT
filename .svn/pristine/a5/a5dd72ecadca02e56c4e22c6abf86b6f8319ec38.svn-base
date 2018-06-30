@@ -1,0 +1,160 @@
+package framework.controller;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+
+import framework.common.CollectionUtils;
+import framework.common.JsonParam;
+import framework.common.result.Code;
+import framework.common.result.Message;
+import framework.common.result.Result;
+import framework.dao.CommodityCateRepository;
+import framework.entity.po.CommodityCate;
+import framework.enums.Success;
+import framework.service.CommodityCateService;
+
+@Controller
+public class CommodityCateController {
+	
+	@Autowired
+	CommodityCateRepository commodityCateRepository;
+	
+	@Autowired
+	CommodityCateService commodityCateService;
+	
+	@RequestMapping(value = "/getCommodityCateList")
+	@ResponseBody
+	public Result getCommodityCateList() {
+		List<CommodityCate> list=null;
+		try {
+			list=	commodityCateRepository.findAll();
+		} catch (Exception e) {
+			Message message = new Message();
+			message.setErrno(Code.GWSCOD0001);
+			message.setErrmsg(Code.GWSMSG0001);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}		
+		return Result.setData(Success.TRUE.getDescription(), list);
+	}
+	
+	@RequestMapping(value = "/getOneCommodityCate")
+	@ResponseBody
+	public Result getOneCommodityCate(Long commodityCateId) {
+		if(null == commodityCateId) {
+			Message message = new Message();
+			message.setErrno(Code.GWSCOD0003);
+			message.setErrmsg(Code.GWSMSG0003);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}
+		CommodityCate dbCommodityCate=null;
+		try {
+			 dbCommodityCate=	commodityCateRepository.findOne(commodityCateId);
+		} catch (Exception e) {
+			Message message = new Message();
+			message.setErrno(Code.GWSCOD0001);
+			message.setErrmsg(Code.GWSMSG0001);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}
+		return Result.setData(Success.TRUE.getDescription(), dbCommodityCate);
+	}
+	
+	
+	@RequestMapping(value = "/addOrUpdateCommodityCate")
+	@ResponseBody
+	public Result addOrUpdateCommodityCate( CommodityCate commodityCate) {
+		
+	if(StringUtils.isBlank(commodityCate.getCommodityCateAlias()) ||  StringUtils.isBlank(commodityCate.getCommodityCateName()) ) {
+		Message message = new Message();
+		message.setErrno(Code.GWSCOD0003);
+		message.setErrmsg(Code.GWSMSG0003);
+		return Result.setData(Success.FALSE.getDescription(), message);
+	}
+	//保存
+	CommodityCate dbReturnCommodityCate=null;
+	try {	
+		if(null!=commodityCate.getCommodityCateId()) {//xiugai
+			CommodityCate dbCommodityCate=	commodityCateRepository.findOne(commodityCate.getCommodityCateId());
+			dbCommodityCate.setCommodityCateAlias(commodityCate.getCommodityCateAlias());
+			dbCommodityCate.setCommodityCateName(commodityCate.getCommodityCateName());
+			dbCommodityCate.setPicUrl(commodityCate.getPicUrl());
+			dbReturnCommodityCate=	commodityCateService.addOrUpdateCommodityCate(dbCommodityCate);
+		}else {
+			dbReturnCommodityCate=	commodityCateService.addOrUpdateCommodityCate(commodityCate);
+		}
+		
+	} catch (Exception e) {
+		Message message = new Message();
+		message.setErrno(Code.GWSCOD0001);
+		message.setErrmsg(Code.GWSMSG0001);
+		return Result.setData(Success.FALSE.getDescription(), message);
+	}
+		return Result.setData(Success.TRUE.getDescription(), dbReturnCommodityCate);
+	}
+	
+	/**
+	 * 删除
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteCommodityCate")
+	@ResponseBody
+	public Result deleteCommodityCate(Long commodityCateId) {
+		if(null == commodityCateId) {
+			Message message = new Message();
+			message.setErrno(Code.GWSCOD0003);
+			message.setErrmsg(Code.GWSMSG0003);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}
+		CommodityCate dbCommodityCate=	commodityCateRepository.findOne(commodityCateId);
+		if(null == dbCommodityCate) {
+			Message message = new Message();
+			message.setErrno(Code.GWSCOD0003);
+			message.setErrmsg(Code.GWSMSG0003);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}
+		boolean bool=false;
+		try {
+			commodityCateService.delete(commodityCateId);
+			bool=true;
+		} catch (Exception e) {
+			Message message = new Message();
+			message.setErrno(Code.GWSCOD0001);
+			message.setErrmsg(Code.GWSMSG0001);
+			return Result.setData(Success.FALSE.getDescription(), message);
+		}
+		
+		return Result.setData(Success.TRUE.getDescription(), bool);
+	}
+	
+	@RequestMapping(value = "/getCommodityCateMap")
+	@ResponseBody
+	public Result getCommodityCateMap() {
+		
+//		Map<Long,String> map=new  HashMap<Long,String>();
+		List<CommodityCate> list=new ArrayList<CommodityCate>();
+		List<CommodityCate> commodityCateList=commodityCateRepository.findAll();
+		if(CollectionUtils.isNotEmpty(commodityCateList)) {
+			for (CommodityCate commodityCate : commodityCateList) {
+//				map.put(commodityCate.getCommodityCateId(), commodityCate.getCommodityCateName());
+				list.add(commodityCate);
+			}
+			
+		}	
+		return Result.setData(Success.TRUE.getDescription(), list);
+	}
+	
+
+}

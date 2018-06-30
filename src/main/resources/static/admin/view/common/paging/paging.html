@@ -1,0 +1,12 @@
+<div class="com-plugin-paging">
+    <span>共<span class="red">{{total}}</span>条记录</span>
+    <span>共<span class="red">{{all_page}}</span>页</span>
+    <span>当前第<span class="red">{{page}}</span>页</span>
+    <div class="to-first" x-class="{'can-not':'page==1'}" e-click="toFirst">首页</div>
+    <div class="to-prev" x-class="{'can-not':'page==1'}" e-click="toPrev">上一页</div>
+    <div class="to-next" x-class="{'can-not':'page==all_page'}" e-click="toNext">下一页</div>
+    <div class="to-last" x-class="{'can-not':'page==all_page'}" e-click="toLast">末页</div>
+    <span>转到:</span>
+    <input type="number" x-field="to_page">
+    <div class="go-to" e-click="goTo">GO</div>
+</div>

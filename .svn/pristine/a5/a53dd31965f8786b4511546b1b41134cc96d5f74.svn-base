@@ -1,0 +1,52 @@
+//package Test.Controller;
+//
+//import org.junit.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//
+//import com.alibaba.fastjson.JSONObject;
+//
+//import Test.Base.BaseJunitTest;
+//import framework.controller.CommodityRoadController;
+//
+//public class testCommodityRoadController extends BaseJunitTest {
+//	
+//	@Autowired
+//	CommodityRoadController commodityRoadController;
+//	
+//	/**
+//	 * 查询柜机商品
+//	 */
+//	@Test
+//	public void test(){
+//		System.out.println(JSONObject.toJSONString(commodityRoadController.findPageCommodityRoad(1L, 1, 10)));
+//	
+//	}
+//	
+////	//添加货道
+////	@Test
+////	public void test1(){
+////		Long box_id=1L;
+////		Long commodity_id=10086L;
+////		String code="xxx_my";
+////		Integer commodity_num=80;
+////		
+////		System.out.println(JSONObject.toJSONString(commodityRoadController.addCommodityRoad(box_id, commodity_id, code, commodity_num)));
+////	}
+//	
+//	
+//	
+////	//修改货道商品
+////	@Test
+////	public void test2(){
+////		Long box_id=1L;
+////		Long commodity_id=10087L;
+////		String code="xxx_my";
+////		Integer commodity_num=10;
+////		Long  commodity_road_id=3L;
+////				
+////		System.out.println(JSONObject.toJSONString(commodityRoadController.updateCommodityRoad
+////				(commodity_road_id, commodity_id, commodity_num)));
+////	}
+//	
+//	
+//}
